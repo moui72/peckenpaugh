@@ -6,7 +6,7 @@ date: 2026-07-07
 
 I have a bad habit. I get excited about an idea, and it's half built before I stop to ask whether I'm building it right. Sometimes that works out. This is a post about a time it didn't, and the process I built afterward so it would happen a little less often.
 
-The idea, for the record, was a multiplayer Songsterr: a guitar tab that scrolls in lockstep with a shared transport, so five people in five different rooms can follow the same beat. It was also an excuse to finally try spec-driven development, which had been showing up everywhere, including at work where folks I respect were singing the praises of GitHub's Spec Kit, so that's where I started.
+The idea, for the record, was a multiplayer Songsterr: a guitar tab that scrolls in lockstep with a shared transport, so five people in five different rooms can follow the same beat. It was also an excuse to finally try spec-driven development, which had been showing up everywhere, including at work where folks I respect were singing the praises of GitHub's [Spec Kit](https://github.com/github/spec-kit), so that's where I started.
 
 Ten days and sixteen feature specs later, I had a mess.
 
@@ -39,7 +39,7 @@ Around the same time, I started a separate project where I cared a lot about get
 
 > i asm starting to feel speckit isn't right for this project
 
-The rest of that same message turned out to be the founding spec of **artifact-driven-dev**: bootstrap a new system inspired by Spec Kit, generate a handful of living artifacts (infrastructure, data model, UI), and build project skills for refining each one, generating research and plans, and turning plans into tasks.
+The rest of that same message turned out to be the founding spec of [**artifact-driven-dev**](https://github.com/moui72/artifact-driven-dev): bootstrap a new system inspired by Spec Kit, generate a handful of living artifacts (infrastructure, data model, UI), and build project skills for refining each one, generating research and plans, and turning plans into tasks.
 
 ## What ArDD is
 
