@@ -160,15 +160,6 @@ code, kbd, samp { font-family: var(--mono); font-size: 0.9em; }
   margin: 0;
 }
 
-/* bracketed-constituent label:  [VP ships it ] */
-.bracket {
-  font-family: var(--mono);
-  font-size: 0.82em;
-  color: var(--pitch);
-  white-space: nowrap;
-}
-.bracket .cat { color: var(--ink-faint); font-weight: 500; }
-
 /* section rule + example number, linguistics-paper style */
 .hr {
   border: 0;

@@ -10,8 +10,6 @@ const latest = posts[0];
 const projects = [
   {
     name: 'sync-tab-scroll',
-    cat: 'VP',
-    gloss: 'plays in time',
     blurb:
       'Multiplayer guitar tab that scrolls in lockstep for a band playing in different rooms. One host drives a shared transport over WebSockets; everyone’s tab scrolls, plays, and counts in together. Live rendering via alphaTab.',
     stack: ['TypeScript', 'WebSockets', 'alphaTab'],
@@ -19,19 +17,15 @@ const projects = [
   },
   {
     name: 'assisted-review',
-    cat: 'VP',
-    gloss: 'reviews the diff',
     blurb:
-      'A CLI that fights PR-review fatigue. It pulls a GitHub PR or GitLab MR, splits the diff into readable chunks, and walks you through it one chunk at a time with AI commentary streamed alongside. Published to npm.',
+      'A CLI for reviewing pull requests. It pulls a GitHub PR or GitLab MR, splits the diff into readable chunks, and pages through it one chunk at a time with AI commentary alongside. Published to npm.',
     stack: ['TypeScript', 'React', 'CLI'],
     repo: 'https://github.com/moui72/assisted-review',
   },
   {
     name: 'artifact-driven-dev',
-    cat: 'NP',
-    gloss: 'the guardrail',
     blurb:
-      'A spec-driven-development framework built on capturing decisions you’ve already made instead of eliciting them from scratch. Living artifacts, a versioned constitution, drift detection against the codebase. The subject of the essay below.',
+      'A spec-driven-development framework built on capturing decisions you’ve already made rather than eliciting them from scratch. Living artifacts, a versioned constitution, drift detection against the codebase. Written about below.',
     stack: ['Claude Code', 'skills', 'prose'],
     repo: 'https://github.com/moui72/artifact-driven-dev',
   },
@@ -42,10 +36,10 @@ const projects = [
   <!-- ============ HERO ============ -->
   <section class="hero">
     <div class="wrap">
-      <p class="eyebrow">Tyler Peckenpaugh · software engineer · recovering linguist</p>
+      <p class="eyebrow">software engineer · formerly theoretical linguistics</p>
 
       <div class="hero-head">
-        <h1>I build things<br />fast.</h1>
+        <h1>Tyler<br />Peckenpaugh</h1>
         <!-- signature: an F0 pitch contour drawn over the utterance -->
         <svg
           class="contour"
@@ -66,8 +60,8 @@ const projects = [
       </div>
 
       <p class="hero-sub prose">
-        Then I build the tooling that keeps <em>fast</em> from turning into a <em>mess</em>.
-        Formerly theoretical linguistics; now software, shipped.
+        I build developer tools and the occasional web app. A few of them are below,
+        along with some writing.
       </p>
 
       <div class="hero-actions">
@@ -94,7 +88,6 @@ const projects = [
             <div class="project-body">
               <h3 class="project-name">
                 <a href={p.repo}>{p.name}</a>
-                <span class="bracket">[<span class="cat">{p.cat}</span> {p.gloss} ]</span>
               </h3>
               <p class="project-blurb">{p.blurb}</p>
               <ul class="stack">
@@ -118,17 +111,14 @@ const projects = [
       </div>
       <div class="prose about">
         <p>
-          I came to software the long way. Before this I did a PhD in theoretical
-          linguistics and wrote a dissertation on <strong>garden-path sentences</strong> —
-          the ones your brain parses confidently down the wrong branch
-          (<span class="gp">the horse raced past the barn <span class="gp-snag">fell</span></span>)
-          and has to quietly back up and re-read.
+          I’m a software engineer. Most of what I build is developer tooling, with
+          the occasional web app.
         </p>
         <p>
-          It turns out that’s also how I build software: commit to a reading fast,
-          hit the snag, re-parse. I like moving quickly and getting invested in
-          things I think are cool. Most of what I make now is tooling — plus the
-          occasional guardrail for the ways that habit gets me into trouble.
+          Before software I did a PhD in theoretical linguistics. My dissertation
+          was on garden-path sentences — the ones you parse down the wrong branch
+          (<span class="gp">the horse raced past the barn <span class="gp-snag">fell</span></span>)
+          before backing up to re-read.
         </p>
         <p class="now">
           <span class="eyebrow">now</span>
