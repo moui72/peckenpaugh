@@ -1,8 +1,8 @@
 ---
-import Base from '../../layouts/Base.astro';
-import { getCollection } from 'astro:content';
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
 
-const posts = (await getCollection('blog'))
+const posts = (await getCollection("blog"))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
@@ -11,7 +11,7 @@ const posts = (await getCollection('blog'))
   <section class="lede">
     <div class="wrap">
       <p class="eyebrow">Blog</p>
-      <h1>Notes on building fast, and the guardrails.</h1>
+      <h1>Engineering in the new paradigm.</h1>
     </div>
   </section>
 
@@ -20,32 +20,51 @@ const posts = (await getCollection('blog'))
   <section>
     <div class="wrap">
       <ol class="post-list">
-        {posts.map((post, i) => (
-          <li class="post-row">
-            <a href={`/blog/${post.id}/`}>
-              <span class="post-idx">({i + 1})</span>
-              <span class="post-main">
-                <span class="post-title">{post.data.title}</span>
-                <span class="post-desc">{post.data.description}</span>
-              </span>
-              <time class="post-date" datetime={post.data.date.toISOString()}>
-                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', timeZone: 'UTC' })}
-              </time>
-            </a>
-          </li>
-        ))}
+        {
+          posts.map((post, i) => (
+            <li class="post-row">
+              <a href={`/blog/${post.id}/`}>
+                <span class="post-idx">({i + 1})</span>
+                <span class="post-main">
+                  <span class="post-title">{post.data.title}</span>
+                  <span class="post-desc">{post.data.description}</span>
+                </span>
+                <time class="post-date" datetime={post.data.date.toISOString()}>
+                  {post.data.date.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    timeZone: "UTC",
+                  })}
+                </time>
+              </a>
+            </li>
+          ))
+        }
       </ol>
     </div>
   </section>
 </Base>
 
 <style>
-  .lede { padding-block: clamp(3rem, 8vw, 5rem) clamp(2rem, 5vw, 3rem); }
-  .lede h1 { font-size: var(--step-3); max-width: 20ch; }
+  .lede {
+    padding-block: clamp(3rem, 8vw, 5rem) clamp(2rem, 5vw, 3rem);
+  }
+  .lede h1 {
+    font-size: var(--step-3);
+    max-width: 20ch;
+  }
 
-  .post-list { list-style: none; margin: 0; padding: 0; }
-  .post-row { border-top: 1px solid var(--rule); }
-  .post-row:first-child { border-top: 0; }
+  .post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .post-row {
+    border-top: 1px solid var(--rule);
+  }
+  .post-row:first-child {
+    border-top: 0;
+  }
   .post-row a {
     display: grid;
     grid-template-columns: 2.5rem 1fr auto;
@@ -54,8 +73,14 @@ const posts = (await getCollection('blog'))
     padding-block: clamp(1.4rem, 3.5vw, 2rem);
     color: var(--ink);
   }
-  .post-row a:hover { text-decoration: none; }
-  .post-idx { font-family: var(--mono); font-size: var(--step--1); color: var(--ink-faint); }
+  .post-row a:hover {
+    text-decoration: none;
+  }
+  .post-idx {
+    font-family: var(--mono);
+    font-size: var(--step--1);
+    color: var(--ink-faint);
+  }
   .post-title {
     display: block;
     width: fit-content;
@@ -69,8 +94,14 @@ const posts = (await getCollection('blog'))
     text-decoration-thickness: 2px;
     text-underline-offset: 0.16em;
   }
-  .post-row a:hover .post-title { color: var(--pitch); text-decoration-thickness: 3px; }
-  .post-desc { color: var(--ink-soft); max-width: var(--measure); }
+  .post-row a:hover .post-title {
+    color: var(--pitch);
+    text-decoration-thickness: 3px;
+  }
+  .post-desc {
+    color: var(--ink-soft);
+    max-width: var(--measure);
+  }
   .post-date {
     font-family: var(--mono);
     font-size: var(--step--1);
@@ -78,7 +109,12 @@ const posts = (await getCollection('blog'))
     white-space: nowrap;
   }
   @media (max-width: 34rem) {
-    .post-row a { grid-template-columns: 1fr; }
-    .post-idx, .post-date { display: none; }
+    .post-row a {
+      grid-template-columns: 1fr;
+    }
+    .post-idx,
+    .post-date {
+      display: none;
+    }
   }
 </style>
