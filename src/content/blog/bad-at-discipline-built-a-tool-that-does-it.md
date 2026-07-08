@@ -1,5 +1,5 @@
 ---
-title: Scaffolding for someone who moves too fast
+title: I'm bad at discipline, so I built a tool that does it
 description: I built my own spec-driven-development framework, mostly to protect my code from my own worst habit. A postmortem, a pivot, and a retrofit test.
 date: 2026-07-07
 ---
