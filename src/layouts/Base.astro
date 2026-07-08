@@ -8,7 +8,7 @@ interface Props {
 }
 const {
   title,
-  description = 'Tyler Peckenpaugh — software engineer. Formerly theoretical linguistics; now software, shipped.',
+  description = 'Tyler J. Peckenpaugh — software engineer. Developer tools, the occasional web app, and some writing. Formerly theoretical linguistics.',
   current,
 } = Astro.props;
 
@@ -43,7 +43,7 @@ const nav = [
   <body>
     <header class="site-head">
       <div class="wrap">
-        <a href="/" class="monogram" aria-label="Tyler Peckenpaugh — home">TJP</a>
+        <a href="/" class="monogram" aria-label="Tyler J. Peckenpaugh — home">TJP</a>
         <nav class="nav" aria-label="Primary">
           {nav.map((item) => (
             <a href={item.href} aria-current={current === item.key ? 'page' : undefined}>
@@ -63,7 +63,7 @@ const nav = [
 
     <footer class="site-foot">
       <div class="wrap">
-        <span>© {new Date().getFullYear()} Tyler Peckenpaugh</span>
+        <span>© {new Date().getFullYear()} Tyler J. Peckenpaugh</span>
         <span>
           <a href="https://github.com/moui72">github</a> ·
           <a href="mailto:peckenpaugh@gmail.com">email</a>
