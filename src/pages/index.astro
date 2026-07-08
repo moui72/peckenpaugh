@@ -1,33 +1,33 @@
 ---
-import Base from '../layouts/Base.astro';
-import { getCollection } from 'astro:content';
+import Base from "../layouts/Base.astro";
+import { getCollection } from "astro:content";
 
-const posts = (await getCollection('blog')).sort(
+const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
 const latest = posts[0];
 
 const projects = [
   {
-    name: 'sync-tab-scroll',
+    name: "sync-tab-scroll",
     blurb:
-      'Multiplayer guitar tab that scrolls in lockstep for a band playing in different rooms. One host drives a shared transport over WebSockets; everyone’s tab scrolls, plays, and counts in together. Live rendering via alphaTab.',
-    stack: ['TypeScript', 'WebSockets', 'alphaTab'],
-    repo: 'https://github.com/kinda-bad/sync-tab-scroll',
+      "Multiplayer guitar tab that scrolls in lockstep for a band playing in different rooms. One host drives a shared transport over WebSockets; everyone’s tab scrolls, plays, and counts in together. Live rendering via alphaTab.",
+    stack: ["TypeScript", "WebSockets", "alphaTab"],
+    repo: "https://github.com/kinda-bad/sync-tab-scroll",
   },
   {
-    name: 'assisted-review',
+    name: "assisted-review",
     blurb:
-      'A CLI for reviewing pull requests. It pulls a GitHub PR or GitLab MR, splits the diff into readable chunks, and pages through it one chunk at a time with AI commentary alongside. Published to npm.',
-    stack: ['TypeScript', 'React', 'CLI'],
-    repo: 'https://github.com/moui72/assisted-review',
+      "A CLI for reviewing pull requests. It pulls a GitHub PR or GitLab MR, splits the diff into readable chunks, and pages through it one chunk at a time with AI commentary alongside. Published to npm.",
+    stack: ["TypeScript", "React", "CLI"],
+    repo: "https://github.com/moui72/assisted-review",
   },
   {
-    name: 'artifact-driven-dev',
+    name: "artifact-driven-dev",
     blurb:
-      'A spec-driven-development framework built on capturing decisions you’ve already made rather than eliciting them from scratch. Living artifacts, a versioned constitution, drift detection against the codebase. Written about below.',
-    stack: ['Claude Code', 'skills', 'prose'],
-    repo: 'https://github.com/moui72/artifact-driven-dev',
+      "A spec-driven-development framework built on capturing decisions you’ve already made rather than eliciting them from scratch. Living artifacts, a versioned constitution, drift detection against the codebase. Written about below.",
+    stack: ["Claude Code", "skills", "prose"],
+    repo: "https://github.com/moui72/artifact-driven-dev",
   },
 ];
 ---
@@ -36,16 +36,24 @@ const projects = [
   <!-- ============ HERO ============ -->
   <section class="hero">
     <div class="wrap">
-      <p class="eyebrow">software engineer · recovering theoretical linguistics</p>
+      <p class="eyebrow">
+        software engineer · recovering theoretical linguistics
+      </p>
 
       <div class="hero-head">
         <h1>Tyler J.<br />Peckenpaugh</h1>
         <!-- decorative flourish: a colour swoosh that spirals in and settles into an underline -->
-        <svg class="swoosh" viewBox="0 0 400 24" fill="none" aria-hidden="true" preserveAspectRatio="none">
+        <svg
+          class="swoosh"
+          viewBox="0 0 400 24"
+          fill="none"
+          aria-hidden="true"
+          preserveAspectRatio="none"
+        >
           <defs>
             <linearGradient id="swooshGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop class="g0" offset="0" />
-              <stop class="g1" offset="1" />
+              <stop class="g0" offset="0"></stop>
+              <stop class="g1" offset="1"></stop>
             </linearGradient>
           </defs>
           <path
@@ -53,20 +61,25 @@ const projects = [
             d="M4,15 C70,3 140,21 210,11 S338,5 396,13"
             stroke="url(#swooshGrad)"
             stroke-width="3.5"
-            stroke-linecap="round"
-          />
+            stroke-linecap="round"></path>
         </svg>
       </div>
 
       <p class="hero-sub prose">
-        I’m a generalist software engineer with a pull toward developer experience,
-        DevOps, and infrastructure. The projects below are mostly things I make for
-        myself; there’s a blog, too.
+        I’m a generalist software engineer with a pull toward developer
+        experience, DevOps, and infrastructure. Find some of my hobby projects
+        below, and there’s a blog, too.
       </p>
 
       <div class="hero-actions">
         <a class="pill" href="#work">↓ see the work</a>
-        {latest && <a class="pill" href="/blog/">✎ read the blog</a>}
+        {
+          latest && (
+            <a class="pill" href="/blog/">
+              ✎ read the blog
+            </a>
+          )
+        }
       </div>
     </div>
   </section>
@@ -82,20 +95,26 @@ const projects = [
       </div>
 
       <ol class="projects">
-        {projects.map((p, i) => (
-          <li class="project">
-            <div class="project-num"><span>({i + 1})</span></div>
-            <div class="project-body">
-              <h3 class="project-name">
-                <a href={p.repo}>{p.name}</a>
-              </h3>
-              <p class="project-blurb">{p.blurb}</p>
-              <ul class="stack">
-                {p.stack.map((s) => <li>{s}</li>)}
-              </ul>
-            </div>
-          </li>
-        ))}
+        {
+          projects.map((p, i) => (
+            <li class="project">
+              <div class="project-num">
+                <span>({String.fromCharCode(65 + i)})</span>
+              </div>
+              <div class="project-body">
+                <h3 class="project-name">
+                  <a href={p.repo}>{p.name}</a>
+                </h3>
+                <p class="project-blurb">{p.blurb}</p>
+                <ul class="stack">
+                  {p.stack.map((s) => (
+                    <li>{s}</li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          ))
+        }
       </ol>
     </div>
   </section>
@@ -111,16 +130,23 @@ const projects = [
       </div>
       <div class="prose about">
         <p>
-          I’m a generalist software engineer, happiest writing, reading, testing, and
-          deleting code. I lean toward developer experience and DevOps, with a good
-          chunk of my work in infrastructure. These days I build products in health tech.
+          I’m a generalist software engineer, happiest writing, reading,
+          testing, and deleting code. I lean toward developer experience and
+          DevOps, with a good chunk of my work in infrastructure. These days I
+          build products in health tech.
         </p>
         <p>
-          Before software I did a PhD in linguistics at the CUNY Graduate Center, under
-          Janet Dean Fodor. My dissertation was on how people parse prepositional-phrase
-          attachment ambiguities — garden-path sentences like
-          <span class="gp">she planned to cram the paperwork in the drawer <span class="gp-snag">into her briefcase</span></span>
-          — from the prosody of readers saying them aloud.
+          Before software I did a PhD in linguistics at the CUNY Graduate
+          Center, under Janet Dean Fodor. My dissertation was on whether the way
+          people parse prepositional-phrase attachment ambiguities is affected
+          by the prosody of spoken utterances.
+        </p>
+        <p>
+          <span class="gp">
+            She planned to cram the paperwork in the drawer <span
+              class="gp-snag">into her briefcase</span
+            >
+          </span>
         </p>
         <p class="now">
           <span class="eyebrow">now</span>
@@ -130,34 +156,48 @@ const projects = [
     </div>
   </section>
 
-  {latest && (
-    <>
-      <hr class="hr" />
-      <section id="blog-teaser">
-        <div class="wrap">
-          <div class="section-tag">
-            <span class="num">(3)</span>
-            <h2>Blog</h2>
+  {
+    latest && (
+      <>
+        <hr class="hr" />
+        <section id="blog-teaser">
+          <div class="wrap">
+            <div class="section-tag">
+              <span class="num">(3)</span>
+              <h2>Blog</h2>
+            </div>
+            <a class="teaser prose" href={`/blog/${latest.id}/`}>
+              <p class="eyebrow">
+                {latest.data.date.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  timeZone: "UTC",
+                })}
+              </p>
+              <h3>{latest.data.title}</h3>
+              <p class="teaser-sub">{latest.data.description}</p>
+              <span class="teaser-more">Read the post →</span>
+            </a>
           </div>
-          <a class="teaser prose" href={`/blog/${latest.id}/`}>
-            <p class="eyebrow">
-              {latest.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}
-            </p>
-            <h3>{latest.data.title}</h3>
-            <p class="teaser-sub">{latest.data.description}</p>
-            <span class="teaser-more">Read the post →</span>
-          </a>
-        </div>
-      </section>
-    </>
-  )}
+        </section>
+      </>
+    )
+  }
 </Base>
 
 <style>
-  .hero { padding-block: clamp(3.5rem, 9vw, 7rem) clamp(2.5rem, 6vw, 4rem); }
-  .hero .eyebrow { margin-bottom: clamp(1.5rem, 4vw, 2.5rem); }
+  .hero {
+    padding-block: clamp(3.5rem, 9vw, 7rem) clamp(2.5rem, 6vw, 4rem);
+  }
+  .hero .eyebrow {
+    margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  }
 
-  .hero-head { position: relative; display: inline-block; }
+  .hero-head {
+    position: relative;
+    display: inline-block;
+  }
   .hero-head h1 {
     font-size: var(--step-4);
     font-weight: 400;
@@ -174,8 +214,12 @@ const projects = [
     height: 0.55em;
     overflow: visible;
   }
-  .swoosh .g0 { stop-color: var(--pitch); }
-  .swoosh .g1 { stop-color: var(--hot); }
+  .swoosh .g0 {
+    stop-color: var(--pitch);
+  }
+  .swoosh .g1 {
+    stop-color: var(--hot);
+  }
   .swoosh-path {
     stroke-dasharray: 470;
     stroke-dashoffset: 470;
@@ -183,10 +227,15 @@ const projects = [
     animation: swoosh-unroll 1.15s cubic-bezier(0.33, 0, 0.2, 1) 0.35s forwards;
   }
   @keyframes swoosh-unroll {
-    to { stroke-dashoffset: 0; }
+    to {
+      stroke-dashoffset: 0;
+    }
   }
   @media (prefers-reduced-motion: reduce) {
-    .swoosh-path { stroke-dashoffset: 0; animation: none; }
+    .swoosh-path {
+      stroke-dashoffset: 0;
+      animation: none;
+    }
   }
 
   .hero-sub {
@@ -195,12 +244,25 @@ const projects = [
     margin-top: clamp(1.75rem, 5vw, 2.75rem);
     line-height: 1.5;
   }
-  .hero-sub em { font-style: normal; color: var(--hot); font-weight: 500; }
+  .hero-sub em {
+    font-style: normal;
+    color: var(--hot);
+    font-weight: 500;
+  }
 
-  .hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
 
   /* ---- projects ---- */
-  .projects { list-style: none; margin: 0; padding: 0; }
+  .projects {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
   .project {
     display: grid;
     grid-template-columns: 3.5rem 1fr;
@@ -208,7 +270,9 @@ const projects = [
     padding-block: clamp(1.6rem, 4vw, 2.4rem);
     border-top: 1px solid var(--rule);
   }
-  .project:first-child { border-top: 0; }
+  .project:first-child {
+    border-top: 0;
+  }
   .project-num {
     font-family: var(--mono);
     color: var(--ink-faint);
@@ -231,7 +295,7 @@ const projects = [
     text-underline-offset: 0.16em;
   }
   .project-name a::after {
-    content: '↗';
+    content: "↗";
     display: inline-block;
     margin-left: 0.28em;
     font-family: var(--mono);
@@ -239,8 +303,15 @@ const projects = [
     color: var(--pitch);
     vertical-align: 0.28em;
   }
-  .project-name a:hover { color: var(--pitch); text-decoration-thickness: 3px; }
-  .project-blurb { color: var(--ink-soft); max-width: var(--measure); margin-bottom: 0.9rem; }
+  .project-name a:hover {
+    color: var(--pitch);
+    text-decoration-thickness: 3px;
+  }
+  .project-blurb {
+    color: var(--ink-soft);
+    max-width: var(--measure);
+    margin-bottom: 0.9rem;
+  }
   .stack {
     list-style: none;
     display: flex;
@@ -252,12 +323,23 @@ const projects = [
     font-size: var(--step--1);
     color: var(--ink-faint);
   }
-  .stack li::before { content: '· '; color: var(--rule); }
-  .stack li:first-child::before { content: ''; }
+  .stack li::before {
+    content: "· ";
+    color: var(--rule);
+  }
+  .stack li:first-child::before {
+    content: "";
+  }
 
   /* ---- about ---- */
-  .about strong { font-weight: 600; }
-  .gp { font-family: var(--mono); font-size: 0.86em; color: var(--ink-soft); }
+  .about strong {
+    font-weight: 600;
+  }
+  .gp {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    color: var(--ink-soft);
+  }
   .gp-snag {
     color: var(--stress);
     border-bottom: 1.5px solid var(--stress);
@@ -273,11 +355,17 @@ const projects = [
     align-items: baseline;
     gap: 0.5rem 0.9rem;
   }
-  .about .now .eyebrow { margin: 0; }
+  .about .now .eyebrow {
+    margin: 0;
+  }
 
   /* ---- blog teaser ---- */
-  .teaser { display: block; }
-  .teaser:hover { text-decoration: none; }
+  .teaser {
+    display: block;
+  }
+  .teaser:hover {
+    text-decoration: none;
+  }
   .teaser h3 {
     font-size: var(--step-2);
     color: var(--ink);
@@ -287,12 +375,25 @@ const projects = [
     text-decoration-thickness: 2px;
     text-underline-offset: 0.16em;
   }
-  .teaser:hover h3 { color: var(--pitch); text-decoration-thickness: 3px; }
-  .teaser-sub { color: var(--ink-soft); }
-  .teaser-more { font-family: var(--mono); font-size: var(--step--1); color: var(--pitch); }
+  .teaser:hover h3 {
+    color: var(--pitch);
+    text-decoration-thickness: 3px;
+  }
+  .teaser-sub {
+    color: var(--ink-soft);
+  }
+  .teaser-more {
+    font-family: var(--mono);
+    font-size: var(--step--1);
+    color: var(--pitch);
+  }
 
   @media (max-width: 34rem) {
-    .project { grid-template-columns: 1fr; }
-    .project-num { padding-top: 0; }
+    .project {
+      grid-template-columns: 1fr;
+    }
+    .project-num {
+      padding-top: 0;
+    }
   }
 </style>
