@@ -1,10 +1,10 @@
 ---
-title: Scaffolding for someone who moves too fast
+title: I'm bad at discipline, so I built a tool that does it
 description: I built my own spec-driven-development framework, mostly to protect my code from my own worst habit. A postmortem, a pivot, and a retrofit test.
 date: 2026-07-07
 ---
 
-I build fast. I get excited about something, and it's half way complete before I stop to think about whether I'm doing it right, which is how I get somewhere good quickly and also how I get somewhere unmaintainable quickly. This is a post about the second one, and the process I built to protect myself from it.
+I have a bad habit. I get excited about an idea, and it's half built before I stop to ask whether I'm building it right. Sometimes that works out. This is a post about a time it didn't, and the process I built afterward so it would happen a little less often.
 
 The idea, for the record, was a multiplayer Songsterr: a guitar tab that scrolls in lockstep with a shared transport, so five people in five different rooms can follow the same beat. It was also an excuse to finally try spec-driven development, which had been showing up everywhere, including at work where folks I respect were singing the praises of GitHub's Spec Kit, so that's where I started.
 
@@ -47,7 +47,7 @@ ArDD is a set of Claude Code skills, installed into a project as slash commands,
 - **`/ardd-critique`** argues with a decision on simplicity, failure modes, and robustness before it's locked in. Its first version buried me in output, which is exactly how I found out I needed it to track findings to resolution instead of just listing them.
 - **Scoped tasks:** each task declares which artifacts it depends on, so implementation loads only the context it needs.
 
-The constitution versions itself with semver and a changelog baked into the file. ArDD eventually ended up managing its own constitution, which was either a good sign or a sign I'd gone too far.
+The constitution versions itself with semver and a changelog baked into the file. ArDD eventually ended up managing its own constitution, which felt like either a good sign or a warning, and I still can't tell which.
 
 I'm upfront in the README that this is disciplined, not lightweight. It assumes you show up with architectural and product vision clarity. The overhead pays for itself on greenfield projects and major pivots, and it's dead weight on a mature, stable codebase. I decided the trade was worth it for the way I work.
 
@@ -57,11 +57,11 @@ The day I stopped work on the old repo, I pointed `/ardd-codify` at it and start
 
 The rebuild also caught fresh mistakes as I made them. `VITE_BACKEND_PORT=6081` prefixed only half of a `build && preview` shell command and silently broke a local proxy. No error, just a build quietly doing the wrong thing. Same day, that became a new constitutional principle (config via `.env`) and a lint check, `pnpm check:env`. In the old repo it would have been an undocumented gotcha I rediscovered in three months.
 
-For the record, the guardrails didn't make me infallible. Setting ArDD up to ignore its own generated skill files, I reached for `.gitignore` and blanket-ignored `.claude/`, which buried real config. I narrowed it to `.claude/skills/` and buried real config again. It took a third pass, and a written decision record, to stop stepping on the same rake. I built a discipline tool and still needed the discipline tool.
+The guardrails did not suddenly make me careful. Setting ArDD up to ignore its own generated skill files, I reached for `.gitignore` and blanket-ignored `.claude/`, which buried real config. I narrowed it to `.claude/skills/` and buried real config again. It took a third pass, and a written decision record, to stop stepping on the same rake. I built a discipline tool and still needed the discipline tool.
 
 ## The retrofit test: assisted-review
 
-I didn't trust ArDD yet. Building a thing and having a thing survive contact with a project you didn't design it around are different, and the second one is the only one that counts.
+I didn't trust ArDD yet. I'd shaped it around two projects, and the only test that meant anything was whether it held up on one I hadn't.
 
 `assisted-review` is a CLI I'd been building for about six weeks before ArDD existed: it fetches a GitHub PR or GitLab MR, splits the diff into chunks, and pages through the review one chunk at a time with AI commentary. Ninety commits of history, none of it captured as artifacts. One `/ardd-codify` run reverse-engineered a full artifact set from the codebase, which is the retrofit path rather than the greenfield bootstrap, and where the framework actually got stress-tested:
 
@@ -72,4 +72,12 @@ I didn't trust ArDD yet. Building a thing and having a thing survive contact wit
 
 The eighty-odd commits since are almost entirely ArDD-shaped, and real features have shipped through the loop: OS-aware keyboard hints, retry/backoff for partial GitLab submit failures, inline comment editing, a state-anchor migration for comments on diffs that shift under a reopened PR.
 
-None of this made me slower to get excited, which was never the goal. It just means that when I'm three features deep and can't remember what I committed to at the start, there's a file that can. I move fast; ArDD writes down what I decided while I was moving, so the version of me who has to live with it can find out what I promised.
+None of this made me slower to get excited, which was never the goal and probably isn't possible anyway. I still move too fast. The only thing that changed is that now something writes down what I decided while I'm moving, so the version of me three features deep can go look it up instead of guessing. That's the whole trick. If you build the same way I do, maybe it's useful to you. If not, I hope watching me ignore my own tooling twice in a row was at least entertaining.
+
+## Do you actually need all this?
+
+Fair question. I ask it myself. ArDD is a lot of machinery — a constitution, a five-step loop, a stack of skills, status and defect files you have to keep honest — and you could reasonably look at all of it and ask whether it's just a good CLAUDE.md wearing a costume.
+
+Maybe it is. I'm not going to pretend everyone who moves fast needs a versioned constitution with a semver changelog; for plenty of projects that's exactly the over-engineering I keep accusing myself of. Half the value here is probably nothing more exotic than deciding what matters and writing it down, and you can do that in a plain text file with no framework at all.
+
+But "be careful" has never once stopped me. I've had CLAUDE.md files quietly say "be careful" and watched it get ignored completely. ArDD is heavier because heavier is what actually changes what I do — the overhead is the point, the friction that lands between me and the mistake I'm about to make for the second time. Is it strict? Yes. Is it more discipline than most people would want? Almost certainly. I like it, and I use it every day, because it fits the specific way I get myself into trouble. That's the whole recommendation: not that you need it, just that I do. Maybe you'll like mine. Maybe Spec Kit is more your speed — it's genuinely good, no shade. Maybe you'll build your own, and my experience is one more data point for it.
