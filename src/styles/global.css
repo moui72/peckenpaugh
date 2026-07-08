@@ -1,7 +1,7 @@
 /* ============================================================
    peckenpaugh.us — design system
-   rose paper / plum ink. Two accents: electric blue (interactive +
-   the pitch-contour signature) and hot pink (editorial structure).
+   rose paper / plum ink. Two accents: electric blue (interactive) and
+   hot pink (editorial structure).
    EB Garamond (display) + Gentium Book Plus (body) / Courier Prime (mono).
    ============================================================ */
 
@@ -14,19 +14,19 @@
 
 :root {
   /* light — rose paper, plum ink, mauve greys */
-  --paper: #ffd9e8;
-  --paper-2: #ffc2d9;
+  --paper: #f7e8ec;
+  --paper-2: #efd9e1;
   --ink: #1f1520;
   --ink-soft: #5c4652;
   --ink-faint: #7e6675;
-  --rule: #e8b3cb;
+  --rule: #e2c7d2;
 
   /* Accent system — two jobs, kept strictly separate:
-     --pitch (electric blue) = INTERACTIVE + the pitch-contour signature:
-       links, heading-link underlines, hovers, focus ring, selection, hero contour.
+     --link (electric blue) = INTERACTIVE:
+       links, heading-link underlines, hovers, focus ring, selection, hero underline.
      --hot   (hot pink) = EDITORIAL STRUCTURE, never interactive:
        section numbers, em emphasis, list markers, blockquote, the h2 accent bar. */
-  --pitch: #2a4bff;
+  --link: #2a4bff;
   --hot: #dd1f77;
   --hot-wash: #dd1f7714;
   --stress: #cc2255; /* the garden-path snag mark, used once */
@@ -37,7 +37,7 @@
 
   --measure: 66ch;
   --gutter: clamp(1.25rem, 5vw, 4rem);
-  --maxw: 74rem;
+  --maxw: 68rem;
 
   --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);
   --step-0: clamp(1.02rem, 0.98rem + 0.2vw, 1.14rem);
@@ -56,7 +56,7 @@
   --ink-soft: #c3aebb;
   --ink-faint: #8f7a88;
   --rule: #352a37;
-  --pitch: #6f8bff;
+  --link: #6f8bff;
   --hot: #ff5ea0;
   --hot-wash: #ff5ea01f;
   --stress: #ff6b8a;
@@ -71,7 +71,7 @@
     --ink-soft: #c3aebb;
     --ink-faint: #8f7a88;
     --rule: #352a37;
-    --pitch: #6f8bff;
+    --link: #6f8bff;
     --hot: #ff5ea0;
     --hot-wash: #ff5ea01f;
     --stress: #ff6b8a;
@@ -139,7 +139,7 @@ p {
 }
 
 a {
-  color: var(--pitch);
+  color: var(--link);
   text-decoration: none;
   text-underline-offset: 0.18em;
   text-decoration-thickness: 1.5px;
@@ -150,7 +150,7 @@ a:hover {
 }
 
 :focus-visible {
-  outline: 2.5px solid var(--pitch);
+  outline: 2.5px solid var(--link);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -163,7 +163,7 @@ samp {
 }
 
 ::selection {
-  background: var(--pitch);
+  background: var(--link);
   color: var(--paper);
 }
 
@@ -223,7 +223,7 @@ samp {
 }
 .monogram:hover {
   text-decoration: none;
-  color: var(--pitch);
+  color: var(--link);
 }
 .nav {
   display: flex;
@@ -237,7 +237,7 @@ samp {
   color: var(--ink-soft);
 }
 .nav a:hover {
-  color: var(--pitch);
+  color: var(--link);
   text-decoration: none;
 }
 .nav a[aria-current="page"] {
@@ -255,8 +255,8 @@ samp {
   line-height: 1.4;
 }
 .theme-toggle:hover {
-  border-color: var(--pitch);
-  color: var(--pitch);
+  border-color: var(--link);
+  color: var(--link);
 }
 
 /* ---------- footer ---------- */
@@ -286,19 +286,21 @@ section {
 section[id] {
   scroll-margin-top: 4.5rem;
 }
-.section-tag {
+/* section heading — a margin rail on wide screens (see .section-grid
+   in index), an inline row when stacked. */
+.section-head {
   display: flex;
   align-items: baseline;
   gap: 0.9rem;
-  margin-bottom: 2rem;
+  margin: 0;
 }
-.section-tag .num {
+.section-head .num {
   font-family: var(--mono);
   color: var(--hot);
   font-size: var(--step--1);
   font-weight: 500;
 }
-.section-tag h2 {
+.section-head h2 {
   font-size: var(--step-2);
   margin: 0;
 }
@@ -317,8 +319,8 @@ section[id] {
   transition: all 0.15s ease;
 }
 .pill:hover {
-  border-color: var(--pitch);
-  color: var(--pitch);
+  border-color: var(--link);
+  color: var(--link);
   text-decoration: none;
 }
 

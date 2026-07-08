@@ -11,22 +11,22 @@ const projects = [
   {
     name: "sync-tab-scroll",
     blurb:
-      "Multiplayer guitar tab that scrolls in lockstep for a band playing in different rooms. One host drives a shared transport over WebSockets; everyone&apos;s tab scrolls, plays, and counts in together. Live rendering via alphaTab.",
-    stack: ["TypeScript", "WebSockets", "alphaTab"],
+      "Multiplayer guitar tab that scrolls in lockstep for a band playing in different rooms. One host drives a shared transport over WebSockets; everyone's tab scrolls, plays, and counts in together. Live rendering via alphaTab.",
+    stack: ["TypeScript", "WebSockets", "alphaTab", "Svelte"],
     repo: "https://github.com/kinda-bad/sync-tab-scroll",
   },
   {
     name: "assisted-review",
     blurb:
-      "A CLI for reviewing pull requests. It pulls a GitHub PR or GitLab MR, splits the diff into readable chunks, and pages through it one chunk at a time with AI commentary alongside. Published to npm.",
-    stack: ["TypeScript", "React", "CLI"],
+      "A CLI that makes you the reviewer and the AI the assistant. It pulls a GitHub PR or GitLab MR, splits the diff into readable chunks, and pages through them one at a time with AI commentary alongside. Published to npm.",
+    stack: ["TypeScript", "React", "CLI", "AI"],
     repo: "https://github.com/moui72/assisted-review",
   },
   {
     name: "artifact-driven-dev",
     blurb:
-      "A spec-driven-development framework built on capturing decisions you&apos;ve already made rather than eliciting them from scratch. Living artifacts, a versioned constitution, drift detection against the codebase. Written about below.",
-    stack: ["Claude Code", "skills", "prose"],
+      "A spec-driven-development framework built on capturing decisions you've already made rather than eliciting them from scratch. Living artifacts, a versioned constitution, drift detection against the codebase. I've written about it on the blog.",
+    stack: ["Claude Code", "skills", "shell", "prose"],
     repo: "https://github.com/moui72/artifact-driven-dev",
   },
 ];
@@ -35,52 +35,56 @@ const projects = [
 <Base title="Tyler J. Peckenpaugh — software engineer">
   <!-- ============ HERO ============ -->
   <section class="hero">
-    <div class="wrap">
-      <p class="eyebrow">
+    <div class="wrap hero-grid">
+      <p class="eyebrow hero-kicker">
         software engineer · recovering theoretical linguistics
       </p>
+      <div class="hero-lede">
+        <div class="hero-head">
+          <h1>Tyler J.<br />Peckenpaugh</h1>
+          <!-- decorative flourish: a colour swoosh that spirals in and settles into an underline -->
+          <svg
+            class="swoosh"
+            viewBox="0 0 400 24"
+            fill="none"
+            aria-hidden="true"
+            preserveAspectRatio="none"
+          >
+            <defs>
+              <linearGradient id="swooshGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop class="g0" offset="0"></stop>
+                <stop class="g1" offset="1"></stop>
+              </linearGradient>
+            </defs>
+            <path
+              class="swoosh-path"
+              d="M4,15 C70,3 140,21 210,11 S338,5 396,13"
+              stroke="url(#swooshGrad)"
+              stroke-width="3.5"
+              stroke-linecap="round"></path>
+          </svg>
+        </div>
 
-      <div class="hero-head">
-        <h1>Tyler J.<br />Peckenpaugh</h1>
-        <!-- decorative flourish: a colour swoosh that spirals in and settles into an underline -->
-        <svg
-          class="swoosh"
-          viewBox="0 0 400 24"
-          fill="none"
-          aria-hidden="true"
-          preserveAspectRatio="none"
-        >
-          <defs>
-            <linearGradient id="swooshGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop class="g0" offset="0"></stop>
-              <stop class="g1" offset="1"></stop>
-            </linearGradient>
-          </defs>
-          <path
-            class="swoosh-path"
-            d="M4,15 C70,3 140,21 210,11 S338,5 396,13"
-            stroke="url(#swooshGrad)"
-            stroke-width="3.5"
-            stroke-linecap="round"></path>
-        </svg>
+        <div class="hero-actions">
+          <a class="pill" href="#work">↓ see the work</a>
+          {
+            latest && (
+              <a class="pill" href="/blog/">
+                ✎ read the blog
+              </a>
+            )
+          }
+        </div>
       </div>
 
-      <p class="hero-sub prose">
-        I&apos;m a generalist software engineer with a pull toward developer
-        experience, DevOps, and infrastructure. Find some of my hobby projects
-        below, and there&apos;s a blog, too.
-      </p>
-
-      <div class="hero-actions">
-        <a class="pill" href="#work">↓ see the work</a>
-        {
-          latest && (
-            <a class="pill" href="/blog/">
-              ✎ read the blog
-            </a>
-          )
-        }
-      </div>
+      <aside class="hero-abstract">
+        <p class="eyebrow">abstract</p>
+        <p class="hero-sub">
+          I&apos;m a generalist software engineer with a pull toward developer
+          experience, DevOps, and infrastructure. Find some of my hobby projects
+          below, and there&apos;s a blog, too.
+        </p>
+      </aside>
     </div>
   </section>
 
@@ -88,13 +92,13 @@ const projects = [
 
   <!-- ============ WORK ============ -->
   <section id="work">
-    <div class="wrap">
-      <div class="section-tag">
+    <div class="wrap section-grid">
+      <div class="section-head">
         <span class="num">(1)</span>
         <h2>Work</h2>
       </div>
 
-      <ol class="projects">
+      <ol class="projects section-body">
         {
           projects.map((p, i) => (
             <li class="project">
@@ -123,12 +127,12 @@ const projects = [
 
   <!-- ============ ABOUT ============ -->
   <section id="about">
-    <div class="wrap">
-      <div class="section-tag">
+    <div class="wrap section-grid">
+      <div class="section-head">
         <span class="num">(2)</span>
         <h2>About</h2>
       </div>
-      <div class="prose about">
+      <div class="prose about section-body">
         <p>
           I&apos;m a generalist software engineer, happiest writing, reading,
           testing, and deleting code. I lean toward developer experience and
@@ -164,12 +168,12 @@ const projects = [
       <>
         <hr class="hr" />
         <section id="blog-teaser">
-          <div class="wrap">
-            <div class="section-tag">
+          <div class="wrap section-grid">
+            <div class="section-head">
               <span class="num">(3)</span>
               <h2>Blog</h2>
             </div>
-            <a class="teaser prose" href={`/blog/${latest.id}/`}>
+            <a class="teaser prose section-body" href={`/blog/${latest.id}/`}>
               <p class="eyebrow">
                 {latest.data.date.toLocaleDateString("en-US", {
                   year: "numeric",
@@ -193,8 +197,38 @@ const projects = [
   .hero {
     padding-block: clamp(3.5rem, 9vw, 7rem) clamp(2.5rem, 6vw, 4rem);
   }
-  .hero .eyebrow {
+  .hero-kicker {
     margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  }
+  @media (min-width: 60rem) {
+    .hero-kicker {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* masthead: title block left, abstract right — the empty right half now
+     carries a paper-style abstract instead of dead space. */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 6vw, 3rem);
+  }
+  @media (min-width: 60rem) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.82fr);
+      align-items: start;
+      gap: clamp(2.5rem, 6vw, 5rem);
+    }
+  }
+
+  .hero-abstract {
+    border-left: 1px solid var(--rule);
+    padding-left: clamp(1rem, 2vw, 1.6rem);
+    align-self: end;
+  }
+  .hero-abstract .hero-sub {
+    margin-top: 0.85rem;
+    max-width: 42ch;
   }
 
   .hero-head {
@@ -218,7 +252,7 @@ const projects = [
     overflow: visible;
   }
   .swoosh .g0 {
-    stop-color: var(--pitch);
+    stop-color: var(--link);
   }
   .swoosh .g1 {
     stop-color: var(--hot);
@@ -260,6 +294,33 @@ const projects = [
     margin-top: 2rem;
   }
 
+  /* section = margin rail (number + title) + body column.
+     Stacks on narrow screens; becomes a two-column grid on wide ones,
+     so the page keeps the hero's full-width composition instead of
+     leaving the right half empty. */
+  .section-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .section-body {
+    min-width: 0;
+  }
+  @media (min-width: 60rem) {
+    .section-grid {
+      grid-template-columns: minmax(0, 14rem) minmax(0, var(--measure));
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: start;
+    }
+    .section-grid .section-head {
+      position: sticky;
+      top: 5rem;
+      flex-direction: column;
+      align-items: start;
+      gap: 0.4rem;
+    }
+  }
+
   /* ---- projects ---- */
   .projects {
     list-style: none;
@@ -293,7 +354,7 @@ const projects = [
   .project-name a {
     color: var(--ink);
     text-decoration: underline;
-    text-decoration-color: var(--pitch);
+    text-decoration-color: var(--link);
     text-decoration-thickness: 2px;
     text-underline-offset: 0.16em;
   }
@@ -303,11 +364,11 @@ const projects = [
     margin-left: 0.28em;
     font-family: var(--mono);
     font-size: 0.6em;
-    color: var(--pitch);
+    color: var(--link);
     vertical-align: 0.28em;
   }
   .project-name a:hover {
-    color: var(--pitch);
+    color: var(--link);
     text-decoration-thickness: 3px;
   }
   .project-blurb {
@@ -374,12 +435,12 @@ const projects = [
     color: var(--ink);
     margin: 0.3em 0 0.4em;
     text-decoration: underline;
-    text-decoration-color: var(--pitch);
+    text-decoration-color: var(--link);
     text-decoration-thickness: 2px;
     text-underline-offset: 0.16em;
   }
   .teaser:hover h3 {
-    color: var(--pitch);
+    color: var(--link);
     text-decoration-thickness: 3px;
   }
   .teaser-sub {
@@ -388,7 +449,7 @@ const projects = [
   .teaser-more {
     font-family: var(--mono);
     font-size: var(--step--1);
-    color: var(--pitch);
+    color: var(--link);
   }
 
   @media (max-width: 34rem) {
