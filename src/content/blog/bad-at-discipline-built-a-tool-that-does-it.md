@@ -27,6 +27,12 @@ Some of the concrete damage:
 
 None of this was Spec Kit's fault. `/speckit-analyze` did its job every time I ran it. It's just that when I've seen Spec Kit succeed, it's been in a mature code base with lots of examples of how to do things right. I was starting from scratch, and I let it create its own examples of how to do things wrong.
 
+## Agents build; they don't judge
+
+Agents are eager, and they are genuinely good at getting something working. They match the patterns already in front of them, they satisfy the linter, they get the tests green. That's real, and it's most of why they feel like magic in a healthy codebase: there's a standard to imitate, and they imitate it well.
+
+But that competence is borrowed from the surroundings. Point one at an empty repo with a spec and it'll build exactly what you asked for and nothing you didn't. It isn't going to weigh SOLID against YAGNI, or notice that two files are drifting toward the same responsibility, or check whether the library already ships the thing it's about to hand-roll. It'll happily put the whole feature in one file if that's the shortest path to "working," because "working" is what you asked for. The judgment about shape — the right seams, what deserves its own module, what shouldn't exist at all — is the part you have to bring, because in a fresh repo there's nothing for the agent to copy it from. The 927-line file wasn't the agent failing. It was the agent succeeding at a job I'd under-specified, with nothing watching the shape of the code while it did.
+
 ## The pivot
 
 Around the same time, I started a separate project where I cared a lot about getting the fundamentals right, and wanted the documentation to be load-bearing rather than incidental. I did not want to repeat the mess. So I tried Spec Kit again, cleanly, in a fresh project. About a day in I stopped and typed, to my agent:
@@ -37,7 +43,7 @@ The rest of that same message turned out to be the founding spec of **artifact-d
 
 ## What ArDD is
 
-The core idea, straight from the README: **capture decisions you've already made, instead of discovering them through structured elicitation.** That's the real split from Spec Kit. Spec Kit helps you find out what you need through guided questioning. That's not how I think. I want something that would let me get the ideas in my head into the context my agent would work in, and would make sure I included the boring parts that I take for granted when I write code myself: SOLID, DRY, YAGNI/KISS; data-model first; encapsulation; no 1000-line spaghetti files.
+The core idea, straight from the README: **capture decisions you've already made, instead of discovering them through structured elicitation.** That's the real split from Spec Kit. Spec Kit helps you find out what you need through guided questioning. That's not how I think. I want something that would let me get the ideas in my head into the context my agent would work in, and would make sure I included the boring parts an agent won't supply on its own: data-model first, encapsulation, no 1000-line spaghetti files.
 
 ArDD is a set of Claude Code skills, installed into a project as slash commands, built around a five-step loop: **Capture → Analyze → Plan → Execute → Converge.**
 
