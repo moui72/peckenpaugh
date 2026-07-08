@@ -231,8 +231,23 @@ const projects = [
     align-items: baseline;
     gap: 0.6rem 0.9rem;
   }
-  .project-name a { color: var(--ink); }
-  .project-name a:hover { color: var(--pitch); }
+  .project-name a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--pitch);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.16em;
+  }
+  .project-name a::after {
+    content: '↗';
+    display: inline-block;
+    margin-left: 0.28em;
+    font-family: var(--mono);
+    font-size: 0.6em;
+    color: var(--pitch);
+    vertical-align: 0.28em;
+  }
+  .project-name a:hover { color: var(--pitch); text-decoration-thickness: 3px; }
   .project-blurb { color: var(--ink-soft); max-width: var(--measure); margin-bottom: 0.9rem; }
   .stack {
     list-style: none;
@@ -271,8 +286,16 @@ const projects = [
   /* ---- writing teaser ---- */
   .teaser { display: block; }
   .teaser:hover { text-decoration: none; }
-  .teaser h3 { font-size: var(--step-2); color: var(--ink); margin: 0.3em 0 0.4em; }
-  .teaser:hover h3 { color: var(--pitch); }
+  .teaser h3 {
+    font-size: var(--step-2);
+    color: var(--ink);
+    margin: 0.3em 0 0.4em;
+    text-decoration: underline;
+    text-decoration-color: var(--pitch);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.16em;
+  }
+  .teaser:hover h3 { color: var(--pitch); text-decoration-thickness: 3px; }
   .teaser-sub { color: var(--ink-soft); }
   .teaser-more { font-family: var(--mono); font-size: var(--step--1); color: var(--pitch); }
 
