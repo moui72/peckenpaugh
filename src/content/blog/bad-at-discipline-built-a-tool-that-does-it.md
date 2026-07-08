@@ -1,6 +1,6 @@
 ---
 title: I'm bad at discipline, so I built a tool that does it
-description: I built my own spec-driven-development framework, mostly to protect my code from my own worst habit. A postmortem, a pivot, and a retrofit test.
+description: Coding agents imitate a healthy codebase well but bring no judgment to an empty one — so I built a spec-driven framework to supply the discipline I won't. A postmortem, a pivot, a retrofit test, and whether you actually need any of it.
 date: 2026-07-07
 ---
 
