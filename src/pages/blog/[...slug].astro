@@ -23,11 +23,15 @@ const dateStr = post.data.date.toLocaleDateString('en-US', {
 <Base title={`${post.data.title} — Tyler J. Peckenpaugh`} description={post.data.description} current="blog">
   <article>
     <header class="post-head">
-      <div class="wrap">
-        <a class="back" href="/blog/">← blog</a>
-        <p class="eyebrow">{dateStr}</p>
-        <h1>{post.data.title}</h1>
-        <p class="standfirst prose">{post.data.description}</p>
+      <div class="wrap post-head-grid">
+        <div class="post-meta">
+          <a class="back" href="/blog/">← blog</a>
+          <p class="eyebrow">{dateStr}</p>
+        </div>
+        <div class="post-title">
+          <h1>{post.data.title}</h1>
+          <p class="standfirst prose">{post.data.description}</p>
+        </div>
       </div>
     </header>
 
@@ -48,14 +52,30 @@ const dateStr = post.data.date.toLocaleDateString('en-US', {
 
 <style>
   .post-head { padding-block: clamp(2.5rem, 6vw, 4rem) clamp(1.5rem, 4vw, 2.5rem); }
+  .post-head-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .post-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  @media (min-width: 60rem) {
+    .post-head-grid {
+      grid-template-columns: minmax(0, 12rem) minmax(0, var(--measure));
+      gap: 3rem;
+      align-items: start;
+    }
+  }
   .back {
     display: inline-block;
     font-family: var(--mono);
     font-size: var(--step--1);
     color: var(--ink-soft);
-    margin-bottom: 2rem;
   }
-  .post-head h1 { font-size: var(--step-3); max-width: 18ch; }
+  .post-head h1 { font-size: var(--step-3); max-width: 26ch; }
   .standfirst {
     font-size: var(--step-1);
     color: var(--ink-soft);
@@ -132,6 +152,40 @@ const dateStr = post.data.date.toLocaleDateString('en-US', {
     border: 1px solid var(--rule);
   }
   .post-body :global(pre code) { background: none; padding: 0; }
+
+  /* wide screens: section headings hang in a left-margin rail while the body
+     flows in the main column beside them — the homepage's rail logic applied
+     to long-form, so the right half isn't left empty. */
+  @media (min-width: 60rem) {
+    .post-body {
+      --rail: 12rem;
+      --rail-gap: 3rem;
+      padding-left: calc(var(--rail) + var(--rail-gap));
+      max-width: calc(var(--rail) + var(--rail-gap) + var(--measure));
+    }
+    .post-body :global(h2) {
+      float: left;
+      clear: left;
+      width: var(--rail);
+      margin-left: calc(-1 * (var(--rail) + var(--rail-gap)));
+      margin-top: 3.25rem;
+      margin-bottom: 0;
+      padding-top: 0;
+      border-top: 0;
+      font-size: var(--step-1);
+      line-height: 1.24;
+      color: var(--ink);
+      text-wrap: balance;
+    }
+    .post-body :global(h2::before) {
+      margin-bottom: 0.7rem;
+    }
+    /* keep each section's first block level with its margin heading and share
+       the vertical break */
+    .post-body :global(h2 + *) {
+      margin-top: 3.25rem;
+    }
+  }
 
   .post-foot {
     border-top: 1px solid var(--rule);
