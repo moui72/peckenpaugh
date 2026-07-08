@@ -1,0 +1,146 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('writing');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const dateStr = post.data.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<Base title={`${post.data.title} — Tyler Peckenpaugh`} description={post.data.description} current="writing">
+  <article>
+    <header class="post-head">
+      <div class="wrap">
+        <a class="back" href="/writing/">← writing</a>
+        <p class="eyebrow">{dateStr}</p>
+        <h1>{post.data.title}</h1>
+        <p class="standfirst prose">{post.data.description}</p>
+      </div>
+    </header>
+
+    <hr class="hr" />
+
+    <div class="wrap">
+      <div class="prose post-body">
+        <Content />
+      </div>
+
+      <footer class="post-foot prose">
+        <p class="sig">— <span class="bracket">[<span class="cat">DP</span> Tyler ]</span></p>
+        <a class="pill" href="/writing/">← more writing</a>
+      </footer>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .post-head { padding-block: clamp(2.5rem, 6vw, 4rem) clamp(1.5rem, 4vw, 2.5rem); }
+  .back {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    margin-bottom: 2rem;
+  }
+  .post-head h1 { font-size: var(--step-3); max-width: 18ch; }
+  .standfirst {
+    font-size: var(--step-1);
+    color: var(--ink-soft);
+    margin-top: 1rem;
+    line-height: 1.45;
+  }
+
+  .post-body { padding-block: clamp(2rem, 5vw, 3.5rem); }
+
+  /* long-form typography */
+  .post-body :global(h2) {
+    font-size: var(--step-2);
+    margin-top: 2.4em;
+    margin-bottom: 0.5em;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--rule);
+  }
+  .post-body :global(h2::before) {
+    content: '';
+    display: block;
+    width: 1.6rem;
+    height: 2px;
+    background: var(--pitch);
+    margin-bottom: 1rem;
+  }
+  .post-body :global(p) { line-height: 1.68; }
+  .post-body :global(strong) { font-weight: 600; }
+  .post-body :global(em) { font-style: italic; }
+
+  .post-body :global(ul) {
+    list-style: none;
+    padding-left: 0;
+    margin: 1.4em 0;
+  }
+  .post-body :global(li) {
+    position: relative;
+    padding-left: 1.6rem;
+    margin-bottom: 0.9em;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .post-body :global(li)::before {
+    content: '›';
+    position: absolute;
+    left: 0.2rem;
+    color: var(--pitch);
+    font-family: var(--mono);
+  }
+  .post-body :global(li strong) { color: var(--ink); }
+
+  .post-body :global(blockquote) {
+    margin: 1.6em 0;
+    padding: 0.2rem 0 0.2rem 1.4rem;
+    border-left: 3px solid var(--pitch);
+    font-family: var(--mono);
+    font-size: 0.94em;
+    color: var(--ink);
+    background: var(--pitch-wash);
+    border-radius: 0 4px 4px 0;
+  }
+  .post-body :global(blockquote p) { margin: 0.5em 0; padding-right: 1rem; }
+
+  .post-body :global(code) {
+    background: var(--paper-2);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+    font-size: 0.85em;
+  }
+  .post-body :global(pre) {
+    background: var(--paper-2);
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    border: 1px solid var(--rule);
+  }
+  .post-body :global(pre code) { background: none; padding: 0; }
+
+  .post-foot {
+    border-top: 1px solid var(--rule);
+    padding-block: 2rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .sig { font-family: var(--mono); font-size: var(--step--1); color: var(--ink-faint); margin: 0; }
+</style>

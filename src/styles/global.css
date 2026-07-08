@@ -1,0 +1,284 @@
+/* ============================================================
+   peckenpaugh.us — design system
+   paper / ink / pitch-blue. Fraunces + IBM Plex Sans + Plex Mono.
+   ============================================================ */
+
+@import '@fontsource-variable/fraunces';
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+
+:root {
+  /* light — warm paper */
+  --paper:      #F4F2ED;
+  --paper-2:    #ECE8DD;
+  --ink:        #17161C;
+  --ink-soft:   #4C4A54;
+  --ink-faint:  #7C7A84;
+  --rule:       #D9D3C6;
+  --pitch:      #1B44D8;  /* Praat F0-contour blue — the signature accent */
+  --pitch-wash: #1b44d814;
+  --stress:     #C6402C;  /* used once, for the stress mark */
+
+  --display: 'Fraunces Variable', Georgia, serif;
+  --body: 'IBM Plex Sans', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --measure: 66ch;
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+  --maxw: 74rem;
+
+  --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);
+  --step-0:  clamp(1.02rem, 0.98rem + 0.2vw, 1.14rem);
+  --step-1:  clamp(1.2rem, 1.12rem + 0.4vw, 1.45rem);
+  --step-2:  clamp(1.5rem, 1.35rem + 0.8vw, 2.1rem);
+  --step-3:  clamp(2rem, 1.7rem + 1.6vw, 3.2rem);
+  --step-4:  clamp(2.7rem, 2rem + 3.6vw, 5.4rem);
+
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --paper:      #141318;
+  --paper-2:    #1C1B22;
+  --ink:        #ECE7DC;
+  --ink-soft:   #B4AFA4;
+  --ink-faint:  #79757F;
+  --rule:       #2A2932;
+  --pitch:      #7E97FF;
+  --pitch-wash: #7e97ff1a;
+  --stress:     #E8795F;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --paper:      #141318;
+    --paper-2:    #1C1B22;
+    --ink:        #ECE7DC;
+    --ink-soft:   #B4AFA4;
+    --ink-faint:  #79757F;
+    --rule:       #2A2932;
+    --pitch:      #7E97FF;
+    --pitch-wash: #7e97ff1a;
+    --stress:     #E8795F;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  font-feature-settings: 'kern', 'liga';
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* subtle paper tooth — a faint horizontal ruling, like a linguist's notebook */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 31px,
+    color-mix(in srgb, var(--ink) 3%, transparent) 31px,
+    color-mix(in srgb, var(--ink) 3%, transparent) 32px
+  );
+  opacity: 0.5;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: 460;
+  font-variation-settings: 'opsz' 144, 'SOFT' 30, 'WONK' 1;
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  margin: 0 0 0.5em;
+  text-wrap: balance;
+}
+
+p { margin: 0 0 1.15em; }
+
+a {
+  color: var(--pitch);
+  text-decoration: none;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1.5px;
+  transition: color 0.15s ease;
+}
+a:hover { text-decoration: underline; }
+
+:focus-visible {
+  outline: 2.5px solid var(--pitch);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+code, kbd, samp { font-family: var(--mono); font-size: 0.9em; }
+
+::selection { background: var(--pitch); color: var(--paper); }
+
+/* ---------- layout primitives ---------- */
+.wrap {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  position: relative;
+  z-index: 1;
+}
+.prose { max-width: var(--measure); }
+
+/* mono eyebrow / label — the syntax voice */
+.eyebrow {
+  font-family: var(--mono);
+  font-size: var(--step--1);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 0;
+}
+
+/* bracketed-constituent label:  [VP ships it ] */
+.bracket {
+  font-family: var(--mono);
+  font-size: 0.82em;
+  color: var(--pitch);
+  white-space: nowrap;
+}
+.bracket .cat { color: var(--ink-faint); font-weight: 500; }
+
+/* section rule + example number, linguistics-paper style */
+.hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+/* ---------- header ---------- */
+.site-head {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: color-mix(in srgb, var(--paper) 86%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--rule);
+}
+.site-head .wrap {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.85rem;
+}
+.monogram {
+  font-family: var(--display);
+  font-weight: 500;
+  font-variation-settings: 'opsz' 144, 'WONK' 1;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.monogram:hover { text-decoration: none; color: var(--pitch); }
+.nav {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(0.9rem, 3vw, 1.8rem);
+  font-family: var(--mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.02em;
+}
+.nav a { color: var(--ink-soft); }
+.nav a:hover { color: var(--pitch); text-decoration: none; }
+.nav a[aria-current='page'] { color: var(--ink); }
+.theme-toggle {
+  font-family: var(--mono);
+  font-size: var(--step--1);
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  color: var(--ink-soft);
+  padding: 0.15rem 0.6rem;
+  cursor: pointer;
+  line-height: 1.4;
+}
+.theme-toggle:hover { border-color: var(--pitch); color: var(--pitch); }
+
+/* ---------- footer ---------- */
+.site-foot {
+  border-top: 1px solid var(--rule);
+  margin-top: clamp(4rem, 10vw, 8rem);
+}
+.site-foot .wrap {
+  padding-block: 2.5rem 3.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--mono);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+}
+.site-foot a { color: var(--ink-soft); }
+
+/* ---------- section scaffolding ---------- */
+section { padding-block: clamp(3rem, 7vw, 5.5rem); }
+section[id] { scroll-margin-top: 4.5rem; }
+.section-tag {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  margin-bottom: 2rem;
+}
+.section-tag .num {
+  font-family: var(--mono);
+  color: var(--pitch);
+  font-size: var(--step--1);
+  font-weight: 500;
+}
+.section-tag h2 { font-size: var(--step-2); margin: 0; }
+
+/* ---------- buttons / inline links ---------- */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: var(--mono);
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  transition: all 0.15s ease;
+}
+.pill:hover { border-color: var(--pitch); color: var(--pitch); text-decoration: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
