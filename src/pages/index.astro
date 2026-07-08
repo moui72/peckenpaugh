@@ -145,19 +145,48 @@ const projects = [
           people parse prepositional-phrase attachment ambiguities is affected
           by the prosody of spoken utterances.
         </p>
-        <p>
-          <span class="gp">
-            She planned to cram the paperwork in the drawer <span
-              class="gp-snag">into her briefcase</span
-            >
-          </span>
-        </p>
+        <figure
+          class="parse"
+          id="parse"
+          data-parse="misparse"
+          aria-label="A garden-path sentence, parsed two ways"
+        >
+          <div class="parse-stage">
+            <svg class="parse-arcs" aria-hidden="true"></svg>
+            <p class="parse-sentence">
+              She planned to <span class="pw" id="pw-verb">cram</span> the{" "}
+              <span class="pw" id="pw-noun">paperwork</span>{" "}
+              <span class="pw" id="pw-amb">in the drawer</span>{" "}
+              <span class="pw" id="pw-goal">into her briefcase</span>.
+            </p>
+          </div>
+          <div class="parse-readout">
+            <div class="parse-switch" role="group" aria-label="Choose a reading">
+              <button
+                type="button"
+                class="ps-btn is-on"
+                data-state="misparse"
+                aria-pressed="true">first pass</button
+              ><button
+                type="button"
+                class="ps-btn"
+                data-state="recovery"
+                aria-pressed="false">reparse</button
+              >
+            </div>
+            <p class="parse-caption" id="parse-caption" aria-live="polite">
+              <em class="c-blue">in the drawer</em> is read as the goal of
+              <em class="c-blue">cram</em> — so
+              <em class="c-red">into her briefcase</em> has nowhere to land.
+            </p>
+          </div>
+        </figure>
         <p>
           If that makes no sense to you, you're leading a better life than me.
         </p>
         <p class="now">
           <span class="eyebrow">now</span>
-          TypeScript · React · Node · AWS · a band that rehearses remotely
+          TypeScript · React · Node · AWS · a band that is bad at keeping time
         </p>
       </div>
     </div>
@@ -399,12 +428,116 @@ const projects = [
   .about strong {
     font-weight: 600;
   }
-  .gp {
-    font-family: var(--mono);
-    font-size: 0.86em;
-    color: var(--ink-soft);
+  /* ---- garden-path parse diagram ---- */
+  .parse {
+    margin: 1.75rem 0 0;
   }
-  .gp-snag {
+  .parse-stage {
+    position: relative;
+    padding-top: 4.5rem; /* headroom for the brackets + their labels */
+    overflow-x: auto;
+    overflow-y: visible;
+  }
+  .parse-arcs {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .parse-sentence {
+    font-family: var(--mono);
+    font-size: 0.9em;
+    line-height: 1.4;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    margin: 0;
+  }
+  .pw {
+    transition: color 0.3s ease;
+  }
+  /* Each attachment gets one color, so its two constituents read as a pair
+     and the two attachments contrast: verb-attachment = blue,
+     noun-attachment = pink, the stranded PP (the crash) = red. */
+  .parse[data-parse="misparse"] #pw-verb,
+  .parse[data-parse="misparse"] #pw-amb {
+    color: var(--link);
+  }
+  .parse[data-parse="misparse"] #pw-goal {
+    color: var(--stress);
+  }
+  .parse[data-parse="recovery"] #pw-noun,
+  .parse[data-parse="recovery"] #pw-amb {
+    color: var(--hot);
+  }
+  .parse[data-parse="recovery"] #pw-verb,
+  .parse[data-parse="recovery"] #pw-goal {
+    color: var(--link);
+  }
+
+  /* segmented control + caption */
+  /* the reading picker + its gloss, bound into one tabbed card so the
+     control and the explanation read as a single unit */
+  .parse-readout {
+    margin-top: 1.35rem;
+    max-width: 34rem;
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .parse-switch {
+    display: flex;
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: var(--step--1);
+  }
+  .ps-btn {
+    flex: 1 1 0;
+    background: none;
+    border: 0;
+    color: var(--ink-faint);
+    padding: 0.5rem 0.95rem;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition:
+      color 0.15s ease,
+      background 0.15s ease;
+  }
+  .ps-btn + .ps-btn {
+    border-left: 1px solid var(--rule);
+  }
+  .ps-btn.is-on {
+    color: var(--paper);
+    background: var(--ink);
+  }
+  .ps-btn:not(.is-on):hover {
+    color: var(--ink);
+    background: var(--paper-2);
+  }
+  .parse-caption {
+    margin: 0;
+    padding: 0.8rem 1rem 0.9rem;
+    color: var(--ink-soft);
+    font-size: var(--step--1);
+    line-height: 1.55;
+  }
+
+  /* progressive enhancement: no JS → static snag + a plain first-pass gloss
+     (no tabs, no card chrome) */
+  .parse:not([data-ready]) .parse-arcs,
+  .parse:not([data-ready]) .parse-switch {
+    display: none;
+  }
+  .parse:not([data-ready]) .parse-readout {
+    border: 0;
+    border-radius: 0;
+  }
+  .parse:not([data-ready]) .parse-caption {
+    padding: 0;
+    margin-top: 1rem;
+  }
+  .parse:not([data-ready]) #pw-amb {
     color: var(--stress);
     border-bottom: 1.5px solid var(--stress);
     padding-bottom: 1px;
@@ -461,3 +594,294 @@ const projects = [
     }
   }
 </style>
+
+<!-- arcs/labels are created in JS, so they miss Astro's scoped selectors;
+     these rules must be global to reach them. -->
+<style is:global>
+  .arc {
+    fill: none;
+    stroke-width: 1.6;
+    transition: stroke 0.35s ease;
+  }
+  .arc-amb {
+    stroke: var(--link); /* misparse: attaches high, to the verb (goal) */
+  }
+  .parse[data-parse="recovery"] .arc-amb {
+    stroke: var(--hot); /* recovery: attaches low, to the noun (which) */
+  }
+  .arc-goal {
+    stroke: var(--link);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .parse[data-parse="recovery"] .arc-goal {
+    opacity: 1;
+  }
+  .arc-dangle {
+    stroke: var(--stress);
+    stroke-dasharray: 2 3; /* dashed = tentative, unresolved */
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .parse[data-parse="misparse"] .arc-dangle {
+    opacity: 1;
+  }
+  .arc-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-anchor: middle;
+  }
+  /* caption keywords — set via JS, so styled globally; colored to match the
+     brackets they describe */
+  .parse-caption em {
+    font-style: normal;
+    font-family: var(--mono);
+    color: var(--ink);
+  }
+  .parse-caption .c-blue {
+    color: var(--link);
+  }
+  .parse-caption .c-pink {
+    color: var(--hot);
+  }
+  .parse-caption .c-red {
+    color: var(--stress);
+  }
+  .lbl-amb {
+    fill: var(--link);
+    transition: fill 0.35s ease;
+  }
+  .parse[data-parse="recovery"] .lbl-amb {
+    fill: var(--hot);
+  }
+  .lbl-goal {
+    fill: var(--link);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .parse[data-parse="recovery"] .lbl-goal {
+    opacity: 1;
+  }
+  .lbl-dangle {
+    fill: var(--stress);
+    font-weight: 700;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .parse[data-parse="misparse"] .lbl-dangle {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .arc,
+    .arc-goal,
+    .arc-dangle,
+    .lbl-amb,
+    .lbl-goal,
+    .lbl-dangle {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Garden-path parse diagram: draw attachment arcs over the sentence and
+  // let the reader swing the ambiguous PP between the two readings.
+  const fig = document.getElementById("parse");
+  if (fig) {
+    const NS = "http://www.w3.org/2000/svg";
+    const svg = fig.querySelector<SVGSVGElement>(".parse-arcs")!;
+    const stage = fig.querySelector<HTMLElement>(".parse-stage")!;
+    const sentence = fig.querySelector<HTMLElement>(".parse-sentence")!;
+    const verb = document.getElementById("pw-verb")!;
+    const noun = document.getElementById("pw-noun")!;
+    const amb = document.getElementById("pw-amb")!;
+    const goal = document.getElementById("pw-goal")!;
+    const cap = document.getElementById("parse-caption")!;
+    const btns = Array.from(fig.querySelectorAll<HTMLButtonElement>(".ps-btn"));
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const mk = (t: string) => document.createElementNS(NS, t);
+    // misparse: the goal-slot is already taken, so this arc reaches up and
+    // finds nothing — the point where the parse crashes.
+    const arcDangle = mk("path");
+    arcDangle.setAttribute("class", "arc arc-dangle");
+    const lblDangle = mk("text");
+    lblDangle.setAttribute("class", "arc-label lbl-dangle");
+    lblDangle.textContent = "?";
+    const arcGoal = mk("path");
+    arcGoal.setAttribute("class", "arc arc-goal");
+    const arcAmb = mk("path");
+    arcAmb.setAttribute("class", "arc arc-amb");
+    const lblGoal = mk("text");
+    lblGoal.setAttribute("class", "arc-label lbl-goal");
+    lblGoal.textContent = "goal";
+    const lblAmb = mk("text");
+    lblAmb.setAttribute("class", "arc-label lbl-amb");
+    svg.append(arcDangle, arcGoal, arcAmb, lblDangle, lblGoal, lblAmb);
+
+    const captions: Record<string, string> = {
+      misparse:
+        '<em class="c-blue">in the drawer</em> is read as the goal of <em class="c-blue">cram</em> — so <em class="c-red">into her briefcase</em> has nowhere to land.',
+      recovery:
+        '<em class="c-pink">in the drawer</em> tells you which <em class="c-pink">paperwork</em>; <em class="c-blue">into her briefcase</em> is the goal.',
+    };
+
+    // scale the one-line sentence down so it fits its column
+    function fitFont() {
+      sentence.style.fontSize = "";
+      const avail = stage.clientWidth;
+      const w = sentence.scrollWidth;
+      if (w > avail) {
+        const base = parseFloat(getComputedStyle(sentence).fontSize);
+        sentence.style.fontSize =
+          Math.max(9.5, (base * avail) / w - 0.5) + "px";
+      }
+    }
+
+    // center-top of a word, in stage-local coordinates
+    function anchor(el: HTMLElement) {
+      const s = stage.getBoundingClientRect();
+      const r = el.getBoundingClientRect();
+      return { x: r.left - s.left + r.width / 2, top: r.top - s.top };
+    }
+    // squared "staple": legs down to each word, a bar across the top, and a
+    // short tick up to the label — constituency-bracket notation.
+    const TICK = 6;
+    function staple(x1: number, x2: number, yBase: number, barY: number) {
+      const mid = (x1 + x2) / 2;
+      return (
+        `M ${x1} ${yBase} L ${x1} ${barY} L ${x2} ${barY} L ${x2} ${yBase}` +
+        ` M ${mid} ${barY} L ${mid} ${barY - TICK}`
+      );
+    }
+
+    let state = "misparse";
+    type P = { x1: number; x2: number; yBase: number; barY: number };
+    let cur: P | null = null;
+
+    const L_INNER = 22; // bar height of the short (inner) bracket
+    const L_OUTER = 44; // bar height of the long (outer) bracket
+
+    function ambTarget(): P {
+      const a = anchor(amb);
+      const left = anchor(state === "misparse" ? verb : noun);
+      const yBase = a.top - 2;
+      return { x1: left.x, x2: a.x, yBase, barY: yBase - L_INNER };
+    }
+    function drawAmb(p: P) {
+      arcAmb.setAttribute("d", staple(p.x1, p.x2, p.yBase, p.barY));
+      lblAmb.setAttribute("x", String((p.x1 + p.x2) / 2));
+      lblAmb.setAttribute("y", String(p.barY - TICK - 4));
+    }
+    function drawGoal() {
+      const v = anchor(verb);
+      const g = anchor(goal);
+      const yBase = anchor(amb).top - 2;
+      const barY = yBase - L_OUTER; // rides above the inner bracket
+      arcGoal.setAttribute("d", staple(v.x, g.x, yBase, barY));
+      lblGoal.setAttribute("x", String((v.x + g.x) / 2));
+      lblGoal.setAttribute("y", String(barY - TICK - 4));
+    }
+    // the crash: a half-bracket off the briefcase whose far leg reaches up
+    // and stops in open air — there's no constituent left to land on.
+    function drawDangle() {
+      const a = anchor(amb);
+      const g = anchor(goal);
+      const yBase = anchor(amb).top - 2;
+      const barY = yBase - L_OUTER;
+      const tipX = g.x - (g.x - a.x) * 0.55; // open end hangs left of briefcase
+      arcDangle.setAttribute(
+        "d",
+        `M ${g.x} ${yBase} L ${g.x} ${barY} L ${tipX} ${barY} L ${tipX} ${barY + 7}`,
+      );
+      lblDangle.setAttribute("x", String(tipX));
+      lblDangle.setAttribute("y", String(barY - 5));
+    }
+
+    function animateAmb(target: P, animate: boolean) {
+      if (!cur || !animate || reduce) {
+        cur = target;
+        drawAmb(target);
+        return;
+      }
+      const from = { ...cur };
+      const t0 = performance.now();
+      const dur = 480;
+      const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+      function step(now: number) {
+        const k = Math.min((now - t0) / dur, 1);
+        const e = ease(k);
+        const p: P = {
+          x1: from.x1 + (target.x1 - from.x1) * e,
+          x2: from.x2 + (target.x2 - from.x2) * e,
+          yBase: from.yBase + (target.yBase - from.yBase) * e,
+          barY: from.barY + (target.barY - from.barY) * e,
+        };
+        drawAmb(p);
+        if (k < 1) requestAnimationFrame(step);
+        else cur = target;
+      }
+      requestAnimationFrame(step);
+    }
+
+    function setState(s: string, animate = true) {
+      state = s;
+      fig.dataset.parse = s;
+      lblAmb.textContent = s === "misparse" ? "goal" : "which";
+      cap.innerHTML = captions[s];
+      btns.forEach((b) => {
+        const on = b.dataset.state === s;
+        b.classList.toggle("is-on", on);
+        b.setAttribute("aria-pressed", String(on));
+      });
+      drawGoal();
+      drawDangle();
+      animateAmb(ambTarget(), animate);
+    }
+
+    btns.forEach((b) =>
+      b.addEventListener("click", () => setState(b.dataset.state!)),
+    );
+
+    function relayout() {
+      fitFont();
+      drawGoal();
+      drawDangle();
+      animateAmb(ambTarget(), false);
+    }
+
+    function init() {
+      fig.dataset.ready = "";
+      fitFont();
+      setState("misparse", false);
+      // Guard against a feedback loop: fitFont() changes the sentence height,
+      // which the observer would see as a resize. Only relayout when the
+      // column *width* actually changes.
+      let lastW = stage.clientWidth;
+      new ResizeObserver(() => {
+        const w = stage.clientWidth;
+        if (w === lastW) return;
+        lastW = w;
+        relayout();
+      }).observe(stage);
+      if (!reduce) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            if (entries.some((e) => e.isIntersecting)) {
+              io.disconnect();
+              setTimeout(() => setState("recovery"), 2100);
+            }
+          },
+          { threshold: 0.6 },
+        );
+        io.observe(fig);
+      }
+    }
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(init);
+    } else {
+      init();
+    }
+  }
+</script>
