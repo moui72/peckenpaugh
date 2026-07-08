@@ -151,6 +151,9 @@ const projects = [
           data-parse="misparse"
           aria-label="A garden-path sentence, parsed two ways"
         >
+          <p class="parse-label">
+            <span class="parse-num">(1)</span> a garden-path sentence
+          </p>
           <div class="parse-stage">
             <svg class="parse-arcs" aria-hidden="true"></svg>
             <p class="parse-sentence">
@@ -429,8 +432,21 @@ const projects = [
     font-weight: 600;
   }
   /* ---- garden-path parse diagram ---- */
+  /* set the whole figure apart from the running text, like a numbered
+     example in a paper */
   .parse {
-    margin: 1.75rem 0 0;
+    margin: clamp(2.5rem, 5vw, 3.5rem) 0;
+  }
+  .parse-label {
+    font-family: var(--mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+    margin: 0 0 0.4rem;
+  }
+  .parse-num {
+    color: var(--hot);
+    margin-right: 0.35em;
   }
   .parse-stage {
     position: relative;
