@@ -151,19 +151,6 @@ const projects = [
           data-parse="misparse"
           aria-label="A garden-path sentence, parsed two ways"
         >
-          <p class="parse-label">
-            <span class="parse-num">Figure 1</span> — a prepositional phrase
-            attachment ambiguity (garden path sentence)
-          </p>
-          <div class="parse-stage">
-            <svg class="parse-arcs" aria-hidden="true"></svg>
-            <p class="parse-sentence">
-              She planned to <span class="pw" id="pw-verb">cram</span> the{" "}
-              <span class="pw" id="pw-noun">paperwork</span>{" "}
-              <span class="pw" id="pw-amb">in the drawer</span>{" "}
-              <span class="pw" id="pw-goal">into her briefcase</span>.
-            </p>
-          </div>
           <div class="parse-readout">
             <div class="parse-switch" role="group" aria-label="Choose a reading">
               <button
@@ -178,12 +165,25 @@ const projects = [
                 aria-pressed="false">reparse</button
               >
             </div>
+            <div class="parse-stage">
+              <svg class="parse-arcs" aria-hidden="true"></svg>
+              <p class="parse-sentence">
+                She planned to <span class="pw" id="pw-verb">cram</span> the{" "}
+                <span class="pw" id="pw-noun">paperwork</span>{" "}
+                <span class="pw" id="pw-amb">in the drawer</span>{" "}
+                <span class="pw" id="pw-goal">into her briefcase</span>.
+              </p>
+            </div>
             <p class="parse-caption" id="parse-caption" aria-live="polite">
               <em class="c-blue">in the drawer</em> is read as the goal of
               <em class="c-blue">cram</em> — so
               <em class="c-red">into her briefcase</em> has nowhere to land.
             </p>
           </div>
+          <figcaption class="parse-label">
+            <span class="parse-num">Figure 1</span> — a prepositional phrase
+            attachment ambiguity (garden path sentence)
+          </figcaption>
         </figure>
         <p>
           If that makes no sense to you, you're leading a better life than me.
@@ -438,12 +438,15 @@ const projects = [
   .parse {
     margin: clamp(2.5rem, 5vw, 3.5rem) 0;
   }
+  /* a figure caption, sitting below the card */
   .parse-label {
+    max-width: 34rem;
     font-family: var(--mono);
     font-size: var(--step--1);
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
     color: var(--ink-faint);
-    margin: 0 0 0.4rem;
+    margin: 0.75rem 0 0;
   }
   .parse-num {
     color: var(--hot);
@@ -451,7 +454,7 @@ const projects = [
   }
   .parse-stage {
     position: relative;
-    padding-top: 4.5rem; /* headroom for the brackets + their labels */
+    padding: 3.9rem 1rem 1.15rem; /* top headroom for the brackets + labels */
     overflow-x: auto;
     overflow-y: visible;
   }
@@ -497,7 +500,6 @@ const projects = [
   /* the reading picker + its gloss, bound into one tabbed card so the
      control and the explanation read as a single unit */
   .parse-readout {
-    margin-top: 1.35rem;
     max-width: 34rem;
     border: 1px solid var(--rule);
     border-radius: 12px;
@@ -532,9 +534,11 @@ const projects = [
     color: var(--ink);
     background: var(--paper-2);
   }
+  /* horizontal divide between the sentence and its explanation */
   .parse-caption {
     margin: 0;
-    padding: 0.8rem 1rem 0.9rem;
+    padding: 0.85rem 1rem 0.95rem;
+    border-top: 1px solid var(--rule);
     color: var(--ink-soft);
     font-size: var(--step--1);
     line-height: 1.55;
@@ -550,9 +554,13 @@ const projects = [
     border: 0;
     border-radius: 0;
   }
+  .parse:not([data-ready]) .parse-stage {
+    padding: 0;
+  }
   .parse:not([data-ready]) .parse-caption {
     padding: 0;
     margin-top: 1rem;
+    border-top: 0;
   }
   .parse:not([data-ready]) #pw-amb {
     color: var(--stress);
@@ -746,7 +754,11 @@ const projects = [
     // scale the one-line sentence down so it fits its column
     function fitFont() {
       sentence.style.fontSize = "";
-      const avail = stage.clientWidth;
+      const cs = getComputedStyle(stage);
+      const avail =
+        stage.clientWidth -
+        parseFloat(cs.paddingLeft) -
+        parseFloat(cs.paddingRight);
       const w = sentence.scrollWidth;
       if (w > avail) {
         const base = parseFloat(getComputedStyle(sentence).fontSize);
