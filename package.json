@@ -12,9 +12,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@fontsource-variable/geist": "^5.2.9",
-    "@fontsource-variable/geist-mono": "^5.2.8",
-    "@fontsource/old-standard-tt": "^5.2.8",
+    "@fontsource-variable/eb-garamond": "^5.2.7",
+    "@fontsource/courier-prime": "^5.2.8",
+    "@fontsource/gentium-book-plus": "^5.2.7",
     "astro": "^7.0.6"
   }
 }

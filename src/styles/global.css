@@ -1,29 +1,39 @@
 /* ============================================================
    peckenpaugh.us — design system
-   paper / ink / pitch-blue. Fraunces + IBM Plex Sans + Plex Mono.
+   rose paper / plum ink. Two accents: electric blue (interactive +
+   the pitch-contour signature) and hot pink (editorial structure).
+   EB Garamond (display) + Gentium Book Plus (body) / Courier Prime (mono).
    ============================================================ */
 
-@import "@fontsource/old-standard-tt/400.css";
-@import "@fontsource/old-standard-tt/700.css";
-@import "@fontsource/old-standard-tt/400-italic.css";
-@import "@fontsource-variable/geist";
-@import "@fontsource-variable/geist-mono";
+@import "@fontsource-variable/eb-garamond";
+@import "@fontsource/gentium-book-plus/400.css";
+@import "@fontsource/gentium-book-plus/700.css";
+@import "@fontsource/gentium-book-plus/400-italic.css";
+@import "@fontsource/courier-prime/400.css";
+@import "@fontsource/courier-prime/700.css";
 
 :root {
-  /* light — warm paper */
-  --paper: #f4f2ed;
-  --paper-2: #ffbb00;
-  --ink: #17161c;
-  --ink-soft: #4c4a54;
-  --ink-faint: #7c7a84;
-  --rule: #d9d3c6;
-  --pitch: #1b44d8; /* Praat F0-contour blue — the signature accent */
-  --pitch-wash: #1b44d814;
-  --stress: #c6402c; /* used once, for the stress mark */
+  /* light — rose paper, plum ink, mauve greys */
+  --paper: #ffd9e8;
+  --paper-2: #ffc2d9;
+  --ink: #1f1520;
+  --ink-soft: #5c4652;
+  --ink-faint: #7e6675;
+  --rule: #e8b3cb;
 
-  --display: "Old Standard TT", Georgia, serif;
-  --body: "Geist Variable", system-ui, sans-serif;
-  --mono: "Geist Mono Variable", ui-monospace, monospace;
+  /* Accent system — two jobs, kept strictly separate:
+     --pitch (electric blue) = INTERACTIVE + the pitch-contour signature:
+       links, heading-link underlines, hovers, focus ring, selection, hero contour.
+     --hot   (hot pink) = EDITORIAL STRUCTURE, never interactive:
+       section numbers, em emphasis, list markers, blockquote, the h2 accent bar. */
+  --pitch: #2a4bff;
+  --hot: #dd1f77;
+  --hot-wash: #dd1f7714;
+  --stress: #cc2255; /* the garden-path snag mark, used once */
+
+  --display: "EB Garamond Variable", "EB Garamond", Georgia, serif;
+  --body: "Gentium Book Plus", Georgia, serif;
+  --mono: "Courier Prime", ui-monospace, "Courier New", monospace;
 
   --measure: 66ch;
   --gutter: clamp(1.25rem, 5vw, 4rem);
@@ -40,29 +50,31 @@
 }
 
 :root[data-theme="dark"] {
-  --paper: #141318;
-  --paper-2: #1c1b22;
-  --ink: #ece7dc;
-  --ink-soft: #b4afa4;
-  --ink-faint: #79757f;
-  --rule: #2a2932;
-  --pitch: #7e97ff;
-  --pitch-wash: #7e97ff1a;
-  --stress: #e8795f;
+  --paper: #16121a;
+  --paper-2: #211b26;
+  --ink: #f3e8ef;
+  --ink-soft: #c3aebb;
+  --ink-faint: #8f7a88;
+  --rule: #352a37;
+  --pitch: #6f8bff;
+  --hot: #ff5ea0;
+  --hot-wash: #ff5ea01f;
+  --stress: #ff6b8a;
   color-scheme: dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #141318;
-    --paper-2: #1c1b22;
-    --ink: #ece7dc;
-    --ink-soft: #b4afa4;
-    --ink-faint: #79757f;
-    --rule: #2a2932;
-    --pitch: #7e97ff;
-    --pitch-wash: #7e97ff1a;
-    --stress: #e8795f;
+    --paper: #16121a;
+    --paper-2: #211b26;
+    --ink: #f3e8ef;
+    --ink-soft: #c3aebb;
+    --ink-faint: #8f7a88;
+    --rule: #352a37;
+    --pitch: #6f8bff;
+    --hot: #ff5ea0;
+    --hot-wash: #ff5ea01f;
+    --stress: #ff6b8a;
     color-scheme: dark;
   }
 }
@@ -115,9 +127,9 @@ h2,
 h3,
 h4 {
   font-family: var(--display);
-  font-weight: 400;
-  line-height: 1.06;
-  letter-spacing: -0.005em;
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: 0;
   margin: 0 0 0.5em;
   text-wrap: balance;
 }
@@ -282,7 +294,7 @@ section[id] {
 }
 .section-tag .num {
   font-family: var(--mono);
-  color: var(--pitch);
+  color: var(--hot);
   font-size: var(--step--1);
   font-weight: 500;
 }

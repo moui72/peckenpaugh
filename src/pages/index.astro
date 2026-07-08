@@ -60,8 +60,9 @@ const projects = [
       </div>
 
       <p class="hero-sub prose">
-        I build developer tools and the occasional web app. A few of them are below,
-        along with a blog.
+        I’m a generalist software engineer with a pull toward developer experience,
+        DevOps, and infrastructure. The projects below are mostly things I make for
+        myself; there’s a blog, too.
       </p>
 
       <div class="hero-actions">
@@ -111,18 +112,20 @@ const projects = [
       </div>
       <div class="prose about">
         <p>
-          I’m a software engineer. Most of what I build is developer tooling, with
-          the occasional web app.
+          I’m a generalist software engineer, happiest writing, reading, testing, and
+          deleting code. I lean toward developer experience and DevOps, with a good
+          chunk of my work in infrastructure. These days I build products in health tech.
         </p>
         <p>
-          Before software I did a PhD in theoretical linguistics. My dissertation
-          was on garden-path sentences — the ones you parse down the wrong branch
-          (<span class="gp">the horse raced past the barn <span class="gp-snag">fell</span></span>)
-          before backing up to re-read.
+          Before software I did a PhD in linguistics at the CUNY Graduate Center, under
+          Janet Dean Fodor. My dissertation was on how people parse prepositional-phrase
+          attachment ambiguities — garden-path sentences like
+          <span class="gp">she planned to cram the paperwork in the drawer <span class="gp-snag">into her briefcase</span></span>
+          — from the prosody of readers saying them aloud.
         </p>
         <p class="now">
           <span class="eyebrow">now</span>
-          TypeScript · Node · Claude Code tooling · a band that rehearses remotely
+          TypeScript · React · Node · AWS · a band that rehearses remotely
         </p>
       </div>
     </div>
@@ -143,7 +146,7 @@ const projects = [
             </p>
             <h3>{latest.data.title}</h3>
             <p class="teaser-sub">{latest.data.description}</p>
-            <span class="teaser-more">Read the essay →</span>
+            <span class="teaser-more">Read the post →</span>
           </a>
         </div>
       </section>
@@ -202,7 +205,7 @@ const projects = [
     margin-top: clamp(1.75rem, 5vw, 2.75rem);
     line-height: 1.5;
   }
-  .hero-sub em { font-style: normal; color: var(--pitch); font-weight: 500; }
+  .hero-sub em { font-style: normal; color: var(--hot); font-weight: 500; }
 
   .hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
 
