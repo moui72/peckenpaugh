@@ -31,6 +31,24 @@
   --hot-wash: #dd1f7714;
   --stress: #cc2255; /* the garden-path snag mark, used once */
 
+  /* Header — a deeper, more saturated rose band over the paper page, capped
+     by a stronger pink rule. Its own tokens so it reads in both themes. */
+  --head-bg: #e8c3d1;
+  --head-fg: var(--ink-soft);
+  --head-fg-strong: var(--ink);
+  --head-accent: var(--link); /* interactive cue: electric blue */
+  --head-rule: var(--hot);
+  /* the monogram fill — blue → violet → hot pink, fixed vivid stops so it
+     glows on the dark bar in either theme. Echoes the hero underline. */
+  --mono-grad: linear-gradient(
+    100deg,
+    #4d6dff 0%,
+    #9b45ff 25%,
+    #ff3d8f 50%,
+    #9b45ff 75%,
+    #4d6dff 100%
+  );
+
   --display: "EB Garamond Variable", "EB Garamond", Georgia, serif;
   --body: "Gentium Book Plus", Georgia, serif;
   --mono: "Courier Prime", ui-monospace, "Courier New", monospace;
@@ -60,6 +78,12 @@
   --hot: #ff5ea0;
   --hot-wash: #ff5ea01f;
   --stress: #ff6b8a;
+  /* elevated plum surface, lifted off the near-black page */
+  --head-bg: #241d2a;
+  --head-fg: var(--ink-soft);
+  --head-fg-strong: var(--ink);
+  --head-accent: var(--link);
+  --head-rule: var(--hot);
   color-scheme: dark;
 }
 
@@ -75,6 +99,11 @@
     --hot: #ff5ea0;
     --hot-wash: #ff5ea01f;
     --stress: #ff6b8a;
+    --head-bg: #241d2a;
+    --head-fg: var(--ink-soft);
+    --head-fg-strong: var(--ink);
+    --head-accent: var(--link);
+    --head-rule: var(--hot);
     color-scheme: dark;
   }
 }
@@ -203,9 +232,9 @@ samp {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: color-mix(in srgb, var(--paper) 86%, transparent);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--head-bg) 90%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid var(--head-rule);
 }
 .site-head .wrap {
   display: flex;
@@ -217,13 +246,20 @@ samp {
 .monogram {
   font-family: var(--display);
   font-weight: 700;
-  font-size: 1.35rem;
-  letter-spacing: 0.01em;
-  color: var(--ink);
+  font-size: 1.55rem;
+  letter-spacing: 0.05em;
+  background: var(--mono-grad);
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  transition: background-position 0.55s ease;
 }
 .monogram:hover {
   text-decoration: none;
-  color: var(--link);
+  background-position: 100% 50%;
 }
 .nav {
   display: flex;
@@ -234,14 +270,14 @@ samp {
   letter-spacing: 0.02em;
 }
 .nav a {
-  color: var(--ink-soft);
+  color: var(--head-fg);
 }
 .nav a:hover {
-  color: var(--link);
+  color: var(--head-accent);
   text-decoration: none;
 }
 .nav a[aria-current="page"] {
-  color: var(--ink);
+  color: var(--head-fg-strong);
 }
 .theme-toggle {
   font-family: var(--mono);
@@ -249,14 +285,15 @@ samp {
   background: none;
   border: 1px solid var(--rule);
   border-radius: 999px;
-  color: var(--ink-soft);
+  color: var(--head-fg);
   padding: 0.15rem 0.6rem;
   cursor: pointer;
   line-height: 1.4;
+  transition: all 0.15s ease;
 }
 .theme-toggle:hover {
-  border-color: var(--link);
-  color: var(--link);
+  border-color: var(--head-accent);
+  color: var(--head-accent);
 }
 
 /* ---------- footer ---------- */
