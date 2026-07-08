@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('writing')).sort(
+const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
 const latest = posts[0];
@@ -36,7 +36,7 @@ const projects = [
   <!-- ============ HERO ============ -->
   <section class="hero">
     <div class="wrap">
-      <p class="eyebrow">software engineer · formerly theoretical linguistics</p>
+      <p class="eyebrow">software engineer · recovering theoretical linguistics</p>
 
       <div class="hero-head">
         <h1>Tyler J.<br />Peckenpaugh</h1>
@@ -61,12 +61,12 @@ const projects = [
 
       <p class="hero-sub prose">
         I build developer tools and the occasional web app. A few of them are below,
-        along with some writing.
+        along with a blog.
       </p>
 
       <div class="hero-actions">
         <a class="pill" href="#work">↓ see the work</a>
-        {latest && <a class="pill" href="/writing/">✎ read the writing</a>}
+        {latest && <a class="pill" href="/blog/">✎ read the blog</a>}
       </div>
     </div>
   </section>
@@ -131,13 +131,13 @@ const projects = [
   {latest && (
     <>
       <hr class="hr" />
-      <section id="writing-teaser">
+      <section id="blog-teaser">
         <div class="wrap">
           <div class="section-tag">
             <span class="num">(3)</span>
-            <h2>Writing</h2>
+            <h2>Blog</h2>
           </div>
-          <a class="teaser prose" href={`/writing/${latest.id}/`}>
+          <a class="teaser prose" href={`/blog/${latest.id}/`}>
             <p class="eyebrow">
               {latest.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}
             </p>
@@ -283,7 +283,7 @@ const projects = [
   }
   .about .now .eyebrow { margin: 0; }
 
-  /* ---- writing teaser ---- */
+  /* ---- blog teaser ---- */
   .teaser { display: block; }
   .teaser:hover { text-decoration: none; }
   .teaser h3 {

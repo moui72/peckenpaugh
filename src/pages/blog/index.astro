@@ -2,15 +2,15 @@
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('writing'))
+const posts = (await getCollection('blog'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
-<Base title="Writing — Tyler J. Peckenpaugh" current="writing">
+<Base title="Blog — Tyler J. Peckenpaugh" current="blog">
   <section class="lede">
     <div class="wrap">
-      <p class="eyebrow">Writing</p>
+      <p class="eyebrow">Blog</p>
       <h1>Notes on building fast, and the guardrails.</h1>
     </div>
   </section>
@@ -22,7 +22,7 @@ const posts = (await getCollection('writing'))
       <ol class="post-list">
         {posts.map((post, i) => (
           <li class="post-row">
-            <a href={`/writing/${post.id}/`}>
+            <a href={`/blog/${post.id}/`}>
               <span class="post-idx">({i + 1})</span>
               <span class="post-main">
                 <span class="post-title">{post.data.title}</span>

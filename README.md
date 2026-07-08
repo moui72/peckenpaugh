@@ -17,24 +17,24 @@ pnpm preview    # serve the build
 
 ## Add a blog post
 
-Drop a Markdown file in `src/content/writing/`. Frontmatter:
+Drop a Markdown file in `src/content/blog/`. Frontmatter:
 
 ```yaml
 ---
 title: Your title
 description: One-line summary (used for the card + meta description).
 date: 2026-07-07
-draft: false   # omit or false to publish
+draft: false # omit or false to publish
 ---
 ```
 
-The filename becomes the URL slug (`/writing/<filename>/`).
+The filename becomes the URL slug (`/blog/<filename>/`).
 
 ## Structure
 
-- `src/pages/index.astro` — home (hero, work, about, writing teaser)
-- `src/pages/writing/` — blog index + `[...slug]` post page
-- `src/content/writing/` — the posts
+- `src/pages/index.astro` — home (hero, work, about, blog teaser)
+- `src/pages/blog/` — blog index + `[...slug]` post page
+- `src/content/blog/` — the posts
 - `src/layouts/Base.astro` — shell, header/nav, footer, theme toggle
 - `src/styles/global.css` — design tokens + base styles
 

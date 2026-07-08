@@ -4,9 +4,9 @@ description: I built my own spec-driven-development framework, mostly to protect
 date: 2026-07-07
 ---
 
-I build fast. I get an idea I think is cool and I'm three features deep before I've decided anything, which is how I get somewhere good quickly and also how I get somewhere unmaintainable quickly. This is a post about the second one, and the process I built to save myself from it.
+I build fast. I get excited about something, and it's half way complete before I stop to think about whether I'm doing it right, which is how I get somewhere good quickly and also how I get somewhere unmaintainable quickly. This is a post about the second one, and the process I built to protect myself from it.
 
-The idea, for the record, was a multiplayer Songsterr: a guitar tab that scrolls in lockstep with a shared transport, so five people in five different rooms can follow the same beat. It was also an excuse to finally try spec-driven development, which had been showing up everywhere. I reached for GitHub's Spec Kit and started writing specs before I'd written a line of application code.
+The idea, for the record, was a multiplayer Songsterr: a guitar tab that scrolls in lockstep with a shared transport, so five people in five different rooms can follow the same beat. It was also an excuse to finally try spec-driven development, which had been showing up everywhere, including at work where folks I respect were singing the praises of GitHub's Spec Kit, so that's where I started.
 
 Ten days and sixteen feature specs later, I had a mess.
 
@@ -16,30 +16,28 @@ Spec Kit gives you a pipeline (`specify` → `plan` → `tasks` → `implement`)
 
 Some of the concrete damage:
 
-- **Inconsistent rigor.** Some of the sixteen specs had a full spec → plan → tasks → contracts → data-model chain. Others were a bare `spec.md` with nothing behind it. There was no rule for which got which, so nobody, including me, could tell from the folder structure how solid a given feature actually was.
+- **Inconsistent rigor.** Some of the sixteen specs had a full spec → plan → tasks → contracts → data-model chain. Others were a bare `spec.md` with nothing behind it. There was no rule for which got which, so I couldn't tell from the folder structure how solid a given feature actually was.
 - **Specs that disagreed with their own contracts.** One type was specified as `{measureNumber, row, x, width}`. The actual contract had nine differently-named fields. One doc capped session participants at 10; the plan built against 8.
 - **A tempo-change contradiction across four files:** data model, WebSocket contract, quickstart, and the spec itself. A decision I made in a later session never propagated back to the docs I'd written earlier.
 - **A missing user story.** Seek had acceptance criteria, a success metric, and contract message types, but no implementation tasks, because nothing forced a check that every story had them.
 - **A "NON-NEGOTIABLE" TDD principle, violated twice.** Two implementation tasks had no preceding test task. The principle was written down and wired to nothing that could stop me.
 - **Untestable success criteria.** "No observable drift." "Differs by no more than one bar," where bar length varies by time signature, so that one never resolved to an actual number.
-- **A hand-rolled cursor overlay,** reconciled against a separately-computed layout map, built because nobody checked whether the rendering library already shipped one. It did.
+- **A hand-rolled cursor overlay,** reconciled against a separately-computed layout map, built because I never checked whether the rendering library already shipped one. It did.
 - **A 927-line entry file** and a 300-line switch over 20 message types, both needing a dedicated multi-day refactor just to become legible again. Nothing in the spec process was watching the shape of the code, only whether features were done. I caught this one by eye, late.
 
-None of this was Spec Kit's fault. `/speckit-analyze` did its job every time I ran it. Spec Kit didn't cause the mess; it just gave my worst habit sixteen folders to express itself in. I'd treated spec-driven development as something you switch on, when it's something you have to set guardrails for before you start: what gets a full artifact chain, what's allowed to drift, what's actually enforced versus merely written down.
+None of this was Spec Kit's fault. `/speckit-analyze` did its job every time I ran it. It's just that when I've seen Spec Kit succeed, it's been in a mature code base with lots of examples of how to do things right. I was starting from scratch, and I let it create its own examples of how to do things wrong.
 
 ## The pivot
 
-Around the same time I started a separate project where I cared a lot about getting the fundamentals right, and wanted the documentation to be load-bearing rather than incidental. I did not want to repeat the mess. So I tried Spec Kit again, cleanly, in a fresh project. About a day in I stopped and typed, to my agent:
+Around the same time, I started a separate project where I cared a lot about getting the fundamentals right, and wanted the documentation to be load-bearing rather than incidental. I did not want to repeat the mess. So I tried Spec Kit again, cleanly, in a fresh project. About a day in I stopped and typed, to my agent:
 
 > i asm starting to feel speckit isn't right for this project
 
-The rest of that same message turned out to be the founding spec of **artifact-driven-dev**: bootstrap a simplified system inspired by Spec Kit, generate a handful of living artifacts (infrastructure, data model, UI), and build project skills for refining each one, generating research and plans, and turning plans into tasks.
-
-I was briefly tempted to call it `add`, for artifact-driven-dev, and then remembered ADD is also attention deficit disorder, which, for a tool whose entire reason to exist is that I can't slow down, felt a little too on the nose. It's ArDD.
+The rest of that same message turned out to be the founding spec of **artifact-driven-dev**: bootstrap a new system inspired by Spec Kit, generate a handful of living artifacts (infrastructure, data model, UI), and build project skills for refining each one, generating research and plans, and turning plans into tasks.
 
 ## What ArDD is
 
-The core idea, straight from the README: **capture decisions you've already made, instead of discovering them through structured elicitation.** That's the real split from Spec Kit. Spec Kit helps you find out what you need through guided questioning. I didn't need discovery. The architectural calls were already in my head, loudly. What I needed was somewhere durable to put them, and a process that would notice when the code quietly stopped agreeing.
+The core idea, straight from the README: **capture decisions you've already made, instead of discovering them through structured elicitation.** That's the real split from Spec Kit. Spec Kit helps you find out what you need through guided questioning. That's not how I think. I want something that would let me get the ideas in my head into the context my agent would work in, and would make sure I included the boring parts that I take for granted when I write code myself: SOLID, DRY, YAGNI/KISS; data-model first; encapsulation; no 1000-line spaghetti files.
 
 ArDD is a set of Claude Code skills, installed into a project as slash commands, built around a five-step loop: **Capture → Analyze → Plan → Execute → Converge.**
 
@@ -51,7 +49,7 @@ ArDD is a set of Claude Code skills, installed into a project as slash commands,
 
 The constitution versions itself with semver and a changelog baked into the file. ArDD eventually ended up managing its own constitution, which was either a good sign or a sign I'd gone too far.
 
-I'm upfront in the README that this is disciplined, not lightweight. It assumes you show up with architectural clarity. The overhead pays for itself on greenfield projects and major pivots, and it's dead weight on a mature, stable codebase. I decided the trade was worth it for the way I work.
+I'm upfront in the README that this is disciplined, not lightweight. It assumes you show up with architectural and product vision clarity. The overhead pays for itself on greenfield projects and major pivots, and it's dead weight on a mature, stable codebase. I decided the trade was worth it for the way I work.
 
 ## Rebuilding the band app
 

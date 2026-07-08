@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('writing');
+  const posts = await getCollection('blog');
   return posts.map((post) => ({
     params: { slug: post.id },
     props: { post },
@@ -20,11 +20,11 @@ const dateStr = post.data.date.toLocaleDateString('en-US', {
 });
 ---
 
-<Base title={`${post.data.title} — Tyler J. Peckenpaugh`} description={post.data.description} current="writing">
+<Base title={`${post.data.title} — Tyler J. Peckenpaugh`} description={post.data.description} current="blog">
   <article>
     <header class="post-head">
       <div class="wrap">
-        <a class="back" href="/writing/">← writing</a>
+        <a class="back" href="/blog/">← blog</a>
         <p class="eyebrow">{dateStr}</p>
         <h1>{post.data.title}</h1>
         <p class="standfirst prose">{post.data.description}</p>
@@ -40,7 +40,7 @@ const dateStr = post.data.date.toLocaleDateString('en-US', {
 
       <footer class="post-foot prose">
         <p class="sig">— Tyler</p>
-        <a class="pill" href="/writing/">← more writing</a>
+        <a class="pill" href="/blog/">← more blog</a>
       </footer>
     </div>
   </article>
