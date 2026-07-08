@@ -40,22 +40,21 @@ const projects = [
 
       <div class="hero-head">
         <h1>Tyler J.<br />Peckenpaugh</h1>
-        <!-- signature: an F0 pitch contour drawn over the utterance -->
-        <svg
-          class="contour"
-          viewBox="0 0 1200 140"
-          fill="none"
-          aria-hidden="true"
-          preserveAspectRatio="none"
-        >
+        <!-- decorative flourish: a colour swoosh that spirals in and settles into an underline -->
+        <svg class="swoosh" viewBox="0 0 400 24" fill="none" aria-hidden="true" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="swooshGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop class="g0" offset="0" />
+              <stop class="g1" offset="1" />
+            </linearGradient>
+          </defs>
           <path
-            class="contour-path"
-            d="M0,96 C120,92 170,44 300,50 S520,104 640,82 S840,20 980,58 S1150,110 1200,96"
-            stroke="var(--pitch)"
-            stroke-width="2.5"
+            class="swoosh-path"
+            d="M4,15 C70,3 140,21 210,11 S338,5 396,13"
+            stroke="url(#swooshGrad)"
+            stroke-width="3.5"
             stroke-linecap="round"
           />
-          <circle class="contour-dot" r="5" fill="var(--pitch)" />
         </svg>
       </div>
 
@@ -167,36 +166,27 @@ const projects = [
     z-index: 1;
   }
 
-  .contour {
+  .swoosh {
     position: absolute;
-    left: -2%;
-    bottom: -0.35em;
-    width: 104%;
-    height: 3.2em;
-    z-index: 0;
+    left: 0;
+    bottom: -0.06em;
+    width: 100%;
+    height: 0.55em;
     overflow: visible;
-    opacity: 0.85;
   }
-  .contour-path {
-    stroke-dasharray: 1600;
-    stroke-dashoffset: 1600;
-    animation: draw 1.7s cubic-bezier(0.22, 1, 0.36, 1) 0.35s forwards;
+  .swoosh .g0 { stop-color: var(--pitch); }
+  .swoosh .g1 { stop-color: var(--hot); }
+  .swoosh-path {
+    stroke-dasharray: 470;
+    stroke-dashoffset: 470;
+    vector-effect: non-scaling-stroke;
+    animation: swoosh-unroll 1.15s cubic-bezier(0.33, 0, 0.2, 1) 0.35s forwards;
   }
-  .contour-dot {
-    offset-path: path('M0,96 C120,92 170,44 300,50 S520,104 640,82 S840,20 980,58 S1150,110 1200,96');
-    offset-distance: 0%;
-    opacity: 0;
-    animation: travel 1.7s cubic-bezier(0.22, 1, 0.36, 1) 0.35s forwards;
-  }
-  @keyframes draw { to { stroke-dashoffset: 0; } }
-  @keyframes travel {
-    0% { offset-distance: 0%; opacity: 1; }
-    92% { opacity: 1; }
-    100% { offset-distance: 100%; opacity: 0; }
+  @keyframes swoosh-unroll {
+    to { stroke-dashoffset: 0; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .contour-path { stroke-dashoffset: 0; }
-    .contour-dot { display: none; }
+    .swoosh-path { stroke-dashoffset: 0; animation: none; }
   }
 
   .hero-sub {
