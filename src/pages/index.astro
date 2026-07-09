@@ -627,6 +627,11 @@ const projects = [
       max-width: none;
       border-inline: 0;
       border-radius: 0;
+      /* lift the band off the page since it has no side border */
+      background: color-mix(in srgb, var(--paper) 76%, #fff);
+    }
+    :root[data-theme="dark"] .parse-readout {
+      background: var(--paper-2);
     }
     .parse-stage,
     .parse-caption,
