@@ -617,6 +617,25 @@ const projects = [
     .project-num {
       padding-top: 0;
     }
+    /* garden-path figure: on phones, break out of the page gutter into a
+       full-width band (top/bottom rules only), dropping the card's side
+       chrome so the sentence gets the whole viewport and needn't h-scroll */
+    .parse {
+      margin-inline: calc(-1 * var(--gutter));
+    }
+    .parse-readout {
+      max-width: none;
+      border-inline: 0;
+      border-radius: 0;
+    }
+    .parse-stage,
+    .parse-caption,
+    .parse-label {
+      padding-inline: 0.75rem;
+    }
+    .parse-label {
+      max-width: none;
+    }
   }
 </style>
 
