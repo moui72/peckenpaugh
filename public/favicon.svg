@@ -1,5 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="7" fill="#1B44D8"/>
-  <path d="M7 21 Q12 10 16 15 T25 11" fill="none" stroke="#F4F2ED" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
-  <text x="16" y="22" font-family="Georgia, serif" font-size="15" font-weight="600" fill="#F4F2ED" text-anchor="middle">T</text>
+  <defs>
+    <linearGradient id="tjp" x1="0" y1="0.1" x2="1" y2="0.7">
+      <stop offset="0" stop-color="#4d6dff"/>
+      <stop offset="0.5" stop-color="#9b45ff"/>
+      <stop offset="1" stop-color="#ff3d8f"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="7" fill="#1e1326"/>
+  <text x="16.5" y="24.2" font-family="Georgia, 'Times New Roman', serif" font-size="24" font-weight="700" fill="url(#tjp)" text-anchor="middle">P</text>
 </svg>
