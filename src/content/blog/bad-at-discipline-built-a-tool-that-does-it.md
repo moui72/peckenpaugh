@@ -37,7 +37,7 @@ But that competence is borrowed from the surroundings. Point one at an empty rep
 
 Around the same time, I started a separate project where I cared a lot about getting the fundamentals right, and wanted the documentation to be load-bearing rather than incidental. I did not want to repeat the mess. So I tried Spec Kit again, cleanly, in a fresh project. About a day in I stopped and typed, to my agent:
 
-> i asm starting to feel speckit isn't right for this project
+> i asm [*sic*] starting to feel speckit isn't right for this project
 
 The rest of that same message turned out to be the founding spec of [**artifact-driven-dev**](https://github.com/moui72/artifact-driven-dev): bootstrap a new system inspired by Spec Kit, generate a handful of living artifacts (infrastructure, data model, UI), and build project skills for refining each one, generating research and plans, and turning plans into tasks.
 
@@ -86,4 +86,4 @@ Fair question. I ask it myself. ArDD is a lot of machinery — a constitution, a
 
 Maybe it is. I'm not going to pretend everyone who moves fast needs a versioned constitution with a semver changelog; for plenty of projects that's exactly the over-engineering I keep accusing myself of. Half the value here is probably nothing more exotic than deciding what matters and writing it down, and you can do that in a plain text file with no framework at all.
 
-But "be careful" has never once stopped me. I've had CLAUDE.md files quietly say "be careful" and watched it get ignored completely. ArDD is heavier because heavier is what actually changes what I do — the overhead is the point, the friction that lands between me and the mistake I'm about to make for the second time. Is it strict? Yes. Is it more discipline than most people would want? Almost certainly. I like it, and I use it every day, because it fits the specific way I get myself into trouble. That's the whole recommendation: not that you need it, just that I do. Maybe you'll like mine. Maybe Spec Kit is more your speed — it's genuinely good, no shade. Maybe you'll build your own, and my experience is one more data point for it.
+But "be careful" has never once stopped me. I've had CLAUDE.md files quietly say "be careful" and watched it get ignored completely. ArDD is heavier because heavier is what actually changes what I do — the overhead is the point, the friction that lands between me and the mistake I'm about to make for the second time. Is it strict? Yes. Is it more discipline than most people would want? Almost certainly. I like it, and I use it every day, because it fits the specific way I get myself into trouble. Maybe Spec Kit is more your speed — it's genuinely good, no shade. Maybe you'll like my system. Maybe you'll build your own, and my experience is one more data point for it.
