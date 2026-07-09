@@ -158,6 +158,7 @@ const projects = [
                 class="ps-btn is-on"
                 data-state="misparse"
                 aria-pressed="true">first pass</button
+              ><span class="ps-sep" aria-hidden="true">›</span
               ><button
                 type="button"
                 class="ps-btn"
@@ -523,8 +524,15 @@ const projects = [
       color 0.15s ease,
       background 0.15s ease;
   }
-  .ps-btn + .ps-btn {
-    border-left: 1px solid var(--rule);
+  /* angled chevron between the tabs: first pass › reparse (directionality) */
+  .ps-sep {
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    font-size: 1.05rem;
+    line-height: 1;
+    color: var(--ink-faint);
+    user-select: none;
   }
   .ps-btn.is-on {
     color: var(--paper);
@@ -628,10 +636,10 @@ const projects = [
       border-inline: 0;
       border-radius: 0;
       /* lift the band off the page since it has no side border */
-      background: color-mix(in srgb, var(--paper) 76%, #fff);
+      background: color-mix(in srgb, var(--paper) 66%, #fff);
     }
     :root[data-theme="dark"] .parse-readout {
-      background: var(--paper-2);
+      background: color-mix(in srgb, var(--paper-2) 82%, var(--ink));
     }
     .parse-stage,
     .parse-caption,
