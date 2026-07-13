@@ -45,13 +45,15 @@ The rest of that same message turned out to be the founding spec of [**artifact-
 
 The core idea, straight from the README: **capture decisions you've already made, instead of discovering them through structured elicitation.** That's the real split from Spec Kit. Spec Kit helps you find out what you need through guided questioning. That's not how I think. I want something that would let me get the ideas in my head into the context my agent would work in, and would make sure I included the boring parts an agent won't supply on its own: data-model first, encapsulation, no 1000-line spaghetti files.
 
-ArDD is a set of Claude Code skills, installed into a project as slash commands, built around a five-step loop: **Capture → Analyze → Plan → Execute → Converge.**
+ArDD is a set of Claude Code skills, installed into a project as slash commands, built around a four-step loop: **Capture → Check → Plan → Execute.** (There used to be a fifth step, Converge, for re-syncing an interrupted run with reality; it survives as a mode of execute rather than a step you take every lap.)
 
 - **Artifacts** are living markdown files under `.project/artifacts/`: a constitution, plus whatever the project needs (data model, UI, infrastructure, API), each carrying a `draft` or `stable` status. You can't plan against a draft.
-- **`/ardd-analyze`** is a cross-artifact consistency check, required before planning. It's the only writer of `STATUS.md`, the one file that says whether the artifacts still agree with each other.
-- **`/ardd-verify`** checks artifacts against the actual codebase and logs drift to `DEFECTS.md`. The four-file tempo contradiction becomes something you catch on a schedule, not once by accident.
-- **`/ardd-critique`** argues with a decision on simplicity, failure modes, and robustness before it's locked in. Its first version buried me in output, which is exactly how I found out I needed it to track findings to resolution instead of just listing them.
+- **`/ardd-status`** is a cross-artifact consistency check, required before planning. It's the only writer of `STATUS.md`, the one file that says whether the artifacts still agree with each other.
+- **`/ardd-defects`** checks artifacts against the actual codebase and logs drift to `DEFECTS.md`. The four-file tempo contradiction becomes something you catch on a schedule, not once by accident.
+- **`/ardd-audit`** argues with a decision on simplicity, failure modes, and robustness before it's locked in. Its first version buried me in output, which is exactly how I found out I needed it to track findings to resolution instead of just listing them.
 - **Scoped tasks:** each task declares which artifacts it depends on, so implementation loads only the context it needs.
+
+*(Command names are current as of this revision — ArDD renamed several skills as its naming system settled, so if you read an older snapshot of this post, `/ardd-analyze`, `/ardd-verify`, and `/ardd-critique` are the same tools. The files they own — `STATUS.md`, `DEFECTS.md` — have stayed put.)*
 
 The constitution versions itself with semver and a changelog baked into the file. ArDD eventually ended up managing its own constitution, which felt like either a good sign or a warning, and I still can't tell which.
 
@@ -59,7 +61,7 @@ I'm upfront in the README that this is disciplined, not lightweight. It assumes 
 
 ## Rebuilding the band app
 
-The day I stopped work on the old repo, I pointed `/ardd-codify` at it and started `sync-tab-scroll`. The new constitution is, in effect, a running postmortem: every principle carries a dated rationale naming the exact bug it exists to prevent. The bootstrap-files-only principle cites the 927-line file. The anti-duplication principle cites the 300-line switch, and the hand-rolled cursor that never should have existed, once alphaTab (the rendering library the rebuild standardized on) turned out to ship its own.
+The day I stopped work on the old repo, I pointed `/ardd-codify` — ArDD's reverse-engineering pass, since folded into `/ardd-init` — at it and started `sync-tab-scroll`. The new constitution is, in effect, a running postmortem: every principle carries a dated rationale naming the exact bug it exists to prevent. The bootstrap-files-only principle cites the 927-line file. The anti-duplication principle cites the 300-line switch, and the hand-rolled cursor that never should have existed, once alphaTab (the rendering library the rebuild standardized on) turned out to ship its own.
 
 The rebuild also caught fresh mistakes as I made them. `VITE_BACKEND_PORT=6081` prefixed only half of a `build && preview` shell command and silently broke a local proxy. No error, just a build quietly doing the wrong thing. Same day, that became a new constitutional principle (config via `.env`) and a lint check, `pnpm check:env`. In the old repo it would have been an undocumented gotcha I rediscovered in three months.
 
@@ -69,12 +71,12 @@ The guardrails did not suddenly make me careful. Setting ArDD up to ignore its o
 
 I didn't trust ArDD yet. I'd shaped it around two projects, and the only test that meant anything was whether it held up on one I hadn't.
 
-`assisted-review` is a CLI I'd been building for about six weeks before ArDD existed: it fetches a GitHub PR or GitLab MR, splits the diff into chunks, and pages through the review one chunk at a time with AI commentary. Ninety commits of history, none of it captured as artifacts. One `/ardd-codify` run reverse-engineered a full artifact set from the codebase, which is the retrofit path rather than the greenfield bootstrap, and where the framework actually got stress-tested:
+`assisted-review` is a CLI I'd been building for about six weeks before ArDD existed: it fetches a GitHub PR or GitLab MR, splits the diff into chunks, and pages through the review one chunk at a time with AI commentary. Ninety commits of history, none of it captured as artifacts. One codify run reverse-engineered a full artifact set from the codebase, which is the retrofit path rather than the greenfield bootstrap, and where the framework actually got stress-tested:
 
 - **The constitution/CLAUDE.md boundary.** A principle banning hosted exposure got softened to "revisit later," then reverted entirely once I noticed a principle that permits its own future violation isn't constraining anything. The concern moved to CLAUDE.md as ordinary coding guidance. A constitution holds hard, versioned decisions; CLAUDE.md holds everything softer. I only found the line because a second project made me draw it.
 - **`/ardd-feedback`.** Real usage turned up a skill ArDD didn't have: capturing bugs and reconsidered decisions found by looking at the running thing, as opposed to critiquing artifacts on paper. Feedback wins over the artifacts, but the agent has to flag the discrepancy and ask.
-- **Tooling distribution.** Should a consuming repo commit the generated skill files? No. Gitignore them, commit a small pointer file recording which ArDD commit is installed, push updates from the source repo.
-- **Drift catches.** An `/ardd-verify` pass caught the docs calling the backend CommonJS when it's actually ESM. Logged to `DEFECTS.md`, fixed, versioned as a constitution patch.
+- **Tooling distribution.** Should a consuming repo commit the generated skill files? No. Gitignore them, commit a small pointer file recording which ArDD version is installed, and pull updates in with `/ardd-update` — ArDD has since grown proper releases, on beta and stable channels.
+- **Drift catches.** An `/ardd-defects` pass caught the docs calling the backend CommonJS when it's actually ESM. Logged to `DEFECTS.md`, fixed, versioned as a constitution patch.
 
 The eighty-odd commits since are almost entirely ArDD-shaped, and real features have shipped through the loop: OS-aware keyboard hints, retry/backoff for partial GitLab submit failures, inline comment editing, a state-anchor migration for comments on diffs that shift under a reopened PR.
 
@@ -82,7 +84,7 @@ None of this made me slower to get excited, which was never the goal and probabl
 
 ## Do you actually need all this?
 
-Fair question. I ask it myself. ArDD is a lot of machinery — a constitution, a five-step loop, a stack of skills, status and defect files you have to keep honest — and you could reasonably look at all of it and ask whether it's just a good CLAUDE.md wearing a costume.
+Fair question. I ask it myself. ArDD is a lot of machinery — a constitution, a four-step loop, a stack of skills, status and defect files you have to keep honest — and you could reasonably look at all of it and ask whether it's just a good CLAUDE.md wearing a costume.
 
 Maybe it is. I'm not going to pretend everyone who moves fast needs a versioned constitution with a semver changelog; for plenty of projects that's exactly the over-engineering I keep accusing myself of. Half the value here is probably nothing more exotic than deciding what matters and writing it down, and you can do that in a plain text file with no framework at all.
 
