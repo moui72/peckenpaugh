@@ -14,6 +14,7 @@ const projects = [
       "Multiplayer guitar tab that scrolls in lockstep for a band playing in different rooms. One host drives a shared transport over WebSockets; everyone's tab scrolls, plays, and counts in together. Live rendering via alphaTab.",
     stack: ["TypeScript", "WebSockets", "alphaTab", "Svelte"],
     repo: "https://github.com/kinda-bad/sync-tab-scroll",
+    links: [{ label: "live demo", href: "https://sts.ty-pe.com/" }],
   },
   {
     name: "assisted-review",
@@ -28,6 +29,14 @@ const projects = [
       "A spec-driven-development framework built on capturing decisions you've already made rather than eliciting them from scratch. Living artifacts, a versioned constitution, drift detection against the codebase. I've written about it on the blog.",
     stack: ["Claude Code", "skills", "shell", "prose"],
     repo: "https://github.com/moui72/artifact-driven-dev",
+    links: [{ label: "docs", href: "https://moui72.github.io/artifact-driven-dev/" }],
+  },
+  {
+    name: "yet-another-rank-games",
+    blurb:
+      "Turn a BoardGameGeek collection into ranked lists — top ten co-op, best of all time — by pairwise comparison. Each duel feeds an OpenSkill (Bradley–Terry) rating that reorders the list, with drag-to-order when you'd rather sort by hand.",
+    stack: ["SvelteKit", "TypeScript", "Supabase", "GCP"],
+    repo: "https://github.com/moui72/yet-another-rank-games",
   },
 ];
 ---
@@ -66,7 +75,7 @@ const projects = [
         </div>
 
         <div class="hero-actions">
-          <a class="pill" href="#work">↓ see the work</a>
+          <a class="pill" href="#projects">↓ see the projects</a>
           {
             latest && (
               <a class="pill" href="/blog/">
@@ -90,12 +99,12 @@ const projects = [
 
   <hr class="hr" />
 
-  <!-- ============ WORK ============ -->
-  <section id="work">
+  <!-- ============ PROJECTS ============ -->
+  <section id="projects">
     <div class="wrap section-grid">
       <div class="section-head">
         <span class="num">(1)</span>
-        <h2>Work</h2>
+        <h2>Projects</h2>
       </div>
 
       <ol class="projects section-body">
@@ -110,6 +119,15 @@ const projects = [
                   <a href={p.repo}>{p.name}</a>
                 </h3>
                 <p class="project-blurb">{p.blurb}</p>
+                {p.links && (
+                  <ul class="project-links">
+                    {p.links.map((l) => (
+                      <li>
+                        <a href={l.href}>{l.label}</a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <ul class="stack">
                   {p.stack.map((s) => (
                     <li>{s}</li>
@@ -290,7 +308,7 @@ const projects = [
     stop-color: var(--link);
   }
   .swoosh .g1 {
-    stop-color: var(--hot);
+    stop-color: var(--orange);
   }
   .swoosh-path {
     stroke-dasharray: 470;
@@ -410,6 +428,34 @@ const projects = [
     color: var(--ink-soft);
     max-width: var(--measure);
     margin-bottom: 0.9rem;
+  }
+  /* resource links — like the [ code ] [ demo ] links under a paper title,
+     shown only when a project has a live demo or docs beyond its repo */
+  .project-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.1rem;
+    margin: 0 0 0.9rem;
+    padding: 0;
+    font-family: var(--mono);
+    font-size: var(--step--1);
+  }
+  .project-links a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.3em;
+    color: var(--link);
+    letter-spacing: 0.02em;
+  }
+  .project-links a::after {
+    content: "↗";
+    font-size: 0.85em;
+  }
+  .project-links a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.16em;
   }
   .stack {
     list-style: none;

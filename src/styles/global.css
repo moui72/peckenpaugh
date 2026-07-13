@@ -1,7 +1,10 @@
 /* ============================================================
    peckenpaugh.us — design system
-   rose paper / plum ink. Two accents: electric blue (interactive) and
-   hot pink (editorial structure).
+   carbon/white spine, two accents. Crimson = interactive, marigold =
+   editorial structure. Each accent is only legible in one mode at full
+   strength (crimson on white, marigold on carbon), so each role is
+   hue-tuned per mode: crimson lifts to rose-red on dark, marigold
+   deepens to rust for small text on white.
    EB Garamond (display) + Gentium Book Plus (body) / Courier Prime (mono).
    ============================================================ */
 
@@ -13,40 +16,46 @@
 @import "@fontsource/courier-prime/700.css";
 
 :root {
-  /* light — rose paper, plum ink, mauve greys */
-  --paper: #f7e8ec;
-  --paper-2: #efd9e1;
-  --ink: #1f1520;
-  --ink-soft: #5c4652;
-  --ink-faint: #7e6675;
-  --rule: #e2c7d2;
+  /* light — white paper, carbon ink, dim-grey for secondary text. Restrained
+     editorial: crimson does the talking, marigold appears only at full
+     brightness (header hairline, logo, swoosh). */
+  --paper: #fbfffe;
+  --paper-2: #eeedf0;
+  --ink: #1b1b1e;
+  --ink-soft: #45414a;
+  --ink-faint: #6d676e;
+  --rule: #e4e2e7;
 
   /* Accent system — two jobs, kept strictly separate:
-     --link (electric blue) = INTERACTIVE:
+     --link (crimson) = INTERACTIVE:
        links, heading-link underlines, hovers, focus ring, selection, hero underline.
-     --hot   (hot pink) = EDITORIAL STRUCTURE, never interactive:
-       section numbers, em emphasis, list markers, blockquote, the h2 accent bar. */
-  --link: #2a4bff;
-  --hot: #dd1f77;
-  --hot-wash: #dd1f7714;
-  --stress: #cc2255; /* the garden-path snag mark, used once */
+     --hot / --orange (marigold) = EDITORIAL STRUCTURE, never interactive:
+       section numbers, em emphasis, list markers, blockquote, the header
+       hairline, the h2 accent bar. --hot is the legible text form (deepened to
+       rust on white paper); --orange is the full-brightness form for bars &
+       gradients. --stress (the garden-path crash) shares the marigold family so
+       the figure reads as crimson-vs-orange, the two accents.  */
+  --link: #96031a;     /* deep crimson — interactive, ~13:1 on white */
+  --hot: #a35f00;      /* marigold, deepened to rust so small text passes AA on white */
+  --orange: #faa916;   /* bright marigold — bars, header rule, gradient stops */
+  --hot-wash: #faa9161a;
+  --stress: #a35f00;   /* the crash / the garden-path snag mark (rust on white) */
 
-  /* Header — a deeper, more saturated rose band over the paper page, capped
-     by a stronger pink rule. Its own tokens so it reads in both themes. */
-  --head-bg: #e8c3d1;
+  /* Header — a whisper-grey band lifted off the white page, capped by a bright
+     marigold hairline: the one loud line on the page. */
+  --head-bg: #f3f2f4;
   --head-fg: var(--ink-soft);
   --head-fg-strong: var(--ink);
-  --head-accent: var(--link); /* interactive cue: electric blue */
-  --head-rule: var(--hot);
-  /* the monogram fill — blue → violet → hot pink, fixed vivid stops so it
-     glows on the dark bar in either theme. Echoes the hero underline. */
+  --head-accent: var(--link); /* interactive cue: crimson */
+  --head-rule: var(--orange);
+  /* the monogram fill — a blood-orange sweep from crimson through to marigold.
+     It's the logo; the two accents run together in the one mark, and everything
+     else on the page keeps them apart. */
   --mono-grad: linear-gradient(
     100deg,
-    #4d6dff 0%,
-    #9b45ff 25%,
-    #ff3d8f 50%,
-    #9b45ff 75%,
-    #4d6dff 100%
+    #96031a 0%,
+    #d64a12 45%,
+    #faa916 100%
   );
 
   --display: "EB Garamond Variable", "EB Garamond", Georgia, serif;
@@ -68,42 +77,57 @@
 }
 
 :root[data-theme="dark"] {
-  --paper: #16121a;
-  --paper-2: #211b26;
-  --ink: #f3e8ef;
-  --ink-soft: #c3aebb;
-  --ink-faint: #8f7a88;
-  --rule: #352a37;
-  --link: #6f8bff;
-  --hot: #ff5ea0;
-  --hot-wash: #ff5ea01f;
-  --stress: #ff6b8a;
-  /* elevated plum surface, lifted off the near-black page */
-  --head-bg: #241d2a;
+  /* dark — carbon black; marigold finally runs at full brightness and crimson
+     lifts to a rose-red so it stays legible off the near-black page. */
+  --paper: #1b1b1e;
+  --paper-2: #26262b;
+  --ink: #fbfffe;
+  --ink-soft: #b8b3bd;
+  --ink-faint: #8a848f;
+  --rule: #34333b;
+  --link: #f0596e;     /* crimson lifted to rose-red for contrast on carbon */
+  --hot: #faa916;
+  --orange: #faa916;
+  --hot-wash: #faa91622;
+  --stress: #faa916;
+  --head-bg: #212127;
   --head-fg: var(--ink-soft);
   --head-fg-strong: var(--ink);
   --head-accent: var(--link);
-  --head-rule: var(--hot);
+  --head-rule: var(--orange);
+  --mono-grad: linear-gradient(
+    100deg,
+    #f0596e 0%,
+    #fa7d2a 45%,
+    #faa916 100%
+  );
   color-scheme: dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #16121a;
-    --paper-2: #211b26;
-    --ink: #f3e8ef;
-    --ink-soft: #c3aebb;
-    --ink-faint: #8f7a88;
-    --rule: #352a37;
-    --link: #6f8bff;
-    --hot: #ff5ea0;
-    --hot-wash: #ff5ea01f;
-    --stress: #ff6b8a;
-    --head-bg: #241d2a;
+    --paper: #1b1b1e;
+    --paper-2: #26262b;
+    --ink: #fbfffe;
+    --ink-soft: #b8b3bd;
+    --ink-faint: #8a848f;
+    --rule: #34333b;
+    --link: #f0596e;
+    --hot: #faa916;
+    --orange: #faa916;
+    --hot-wash: #faa91622;
+    --stress: #faa916;
+    --head-bg: #212127;
     --head-fg: var(--ink-soft);
     --head-fg-strong: var(--ink);
     --head-accent: var(--link);
-    --head-rule: var(--hot);
+    --head-rule: var(--orange);
+    --mono-grad: linear-gradient(
+      100deg,
+      #f0596e 0%,
+      #fa7d2a 45%,
+      #faa916 100%
+    );
     color-scheme: dark;
   }
 }
@@ -193,7 +217,7 @@ samp {
 
 ::selection {
   background: var(--link);
-  color: var(--paper);
+  color: #fff;
 }
 
 /* ---------- layout primitives ---------- */
@@ -314,6 +338,27 @@ samp {
 }
 .site-foot a {
   color: var(--ink-soft);
+}
+/* social marks — a small set of filled icons, faint until hovered */
+.social {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.social a {
+  display: inline-flex;
+  color: var(--ink-faint);
+}
+.social a:hover {
+  color: var(--link);
+}
+.social svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  display: block;
 }
 
 /* ---------- section scaffolding ---------- */
