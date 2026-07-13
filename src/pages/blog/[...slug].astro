@@ -12,12 +12,15 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-const dateStr = post.data.date.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  timeZone: 'UTC',
-});
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
+const dateStr = fmt(post.data.date);
+const revisedStr = post.data.revised ? fmt(post.data.revised) : null;
 ---
 
 <Base title={`${post.data.title} — Tyler J. Peckenpaugh`} description={post.data.description} current="blog">
@@ -27,9 +30,11 @@ const dateStr = post.data.date.toLocaleDateString('en-US', {
         <div class="post-meta">
           <a class="back" href="/blog/">← blog</a>
           <p class="eyebrow">{dateStr}</p>
+          {revisedStr && <p class="eyebrow revised">rev. {revisedStr}</p>}
         </div>
         <div class="post-title">
           <h1>{post.data.title}</h1>
+          <p class="byline">by Tyler J. Peckenpaugh</p>
           <p class="standfirst prose">{post.data.description}</p>
         </div>
       </div>
@@ -43,7 +48,6 @@ const dateStr = post.data.date.toLocaleDateString('en-US', {
       </div>
 
       <footer class="post-foot prose">
-        <p class="sig">— Tyler</p>
         <a class="pill" href="/blog/">← more blog</a>
       </footer>
     </div>
@@ -76,6 +80,14 @@ const dateStr = post.data.date.toLocaleDateString('en-US', {
     color: var(--ink-soft);
   }
   .post-head h1 { font-size: var(--step-3); max-width: 26ch; }
+  .eyebrow.revised { color: var(--hot); }
+  .byline {
+    font-family: var(--mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    margin: 0.35rem 0 0;
+  }
   .standfirst {
     font-size: var(--step-1);
     color: var(--ink-soft);
@@ -102,6 +114,30 @@ const dateStr = post.data.date.toLocaleDateString('en-US', {
     margin-bottom: 1rem;
   }
   .post-body :global(p) { line-height: 1.68; }
+
+  /* revision note — an errata slip, quieter than a quote and clearly
+     editorial: dashed rule like a correction pasted into the notebook */
+  .post-body :global(.revision) {
+    margin: 0 0 2.4em;
+    padding: 0.85rem 1.2rem 0.7rem;
+    border: 1px dashed color-mix(in srgb, var(--hot) 45%, var(--rule));
+    border-radius: 6px;
+  }
+  .post-body :global(.revision-label) {
+    font-family: var(--mono);
+    font-size: var(--step--1);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--hot);
+    margin: 0 0 0.4em;
+  }
+  .post-body :global(.revision p:not(.revision-label)) {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin: 0 0 0.6em;
+  }
   .post-body :global(strong) { font-weight: 600; }
   .post-body :global(em) { font-style: italic; }
 
@@ -196,5 +232,4 @@ const dateStr = post.data.date.toLocaleDateString('en-US', {
     align-items: baseline;
     justify-content: space-between;
   }
-  .sig { font-family: var(--mono); font-size: var(--step--1); color: var(--ink-faint); margin: 0; }
 </style>

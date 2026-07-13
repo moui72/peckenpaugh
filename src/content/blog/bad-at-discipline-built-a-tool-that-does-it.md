@@ -2,9 +2,13 @@
 title: I'm bad at discipline, so I built a tool that does it
 description: Coding agents imitate a healthy codebase well but bring no judgment to an empty one — so I built a spec-driven framework to supply the discipline I won't. A postmortem, a pivot, a retrofit test, and whether you actually need any of it.
 date: 2026-07-07
+revised: 2026-07-13
 ---
 
-> **Revised July 13, 2026:** ArDD has kept moving since this was published — several skills were renamed (`/ardd-analyze` → `/ardd-status`, `/ardd-verify` → `/ardd-defects`, `/ardd-critique` → `/ardd-audit`), the fifth loop step folded into execute, and updates now ship as real releases. Command names and the loop below reflect the current tool.
+<aside class="revision">
+  <p class="revision-label">Revised July 13, 2026</p>
+  <p>ArDD has kept moving since this was published — several skills were renamed (<code>/ardd-analyze</code> → <code>/ardd-status</code>, <code>/ardd-verify</code> → <code>/ardd-defects</code>, <code>/ardd-critique</code> → <code>/ardd-audit</code>), the fifth loop step folded into execute, and updates now ship as real releases. Command names and the loop below reflect the current tool.</p>
+</aside>
 
 I have a bad habit. I get excited about an idea, and it's half built before I stop to ask whether I'm building it right. Sometimes that works out. This is a post about a time it didn't, and the process I built afterward so it would happen a little less often.
 
