@@ -4,7 +4,7 @@ description: Coding agents imitate a healthy codebase well but bring no judgment
 date: 2026-07-07
 ---
 
-*Revised July 13, 2026: ArDD has kept moving since this was published — several skills were renamed (`/ardd-analyze` → `/ardd-status`, `/ardd-verify` → `/ardd-defects`, `/ardd-critique` → `/ardd-audit`), the fifth loop step folded into execute, and updates now ship as real releases. Command names and the loop below reflect the current tool.*
+> **Revised July 13, 2026:** ArDD has kept moving since this was published — several skills were renamed (`/ardd-analyze` → `/ardd-status`, `/ardd-verify` → `/ardd-defects`, `/ardd-critique` → `/ardd-audit`), the fifth loop step folded into execute, and updates now ship as real releases. Command names and the loop below reflect the current tool.
 
 I have a bad habit. I get excited about an idea, and it's half built before I stop to ask whether I'm building it right. Sometimes that works out. This is a post about a time it didn't, and the process I built afterward so it would happen a little less often.
 
