@@ -4,6 +4,8 @@ description: Coding agents imitate a healthy codebase well but bring no judgment
 date: 2026-07-07
 ---
 
+*Revised July 13, 2026: ArDD has kept moving since this was published — several skills were renamed (`/ardd-analyze` → `/ardd-status`, `/ardd-verify` → `/ardd-defects`, `/ardd-critique` → `/ardd-audit`), the fifth loop step folded into execute, and updates now ship as real releases. Command names and the loop below reflect the current tool.*
+
 I have a bad habit. I get excited about an idea, and it's half built before I stop to ask whether I'm building it right. Sometimes that works out. This is a post about a time it didn't, and the process I built afterward so it would happen a little less often.
 
 The idea, for the record, was a multiplayer Songsterr: a guitar tab that scrolls in lockstep with a shared transport, so five people in five different rooms can follow the same beat. It was also an excuse to finally try spec-driven development, which had been showing up everywhere, including at work where folks I respect were singing the praises of GitHub's [Spec Kit](https://github.com/github/spec-kit), so that's where I started.
@@ -52,8 +54,6 @@ ArDD is a set of Claude Code skills, installed into a project as slash commands,
 - **`/ardd-defects`** checks artifacts against the actual codebase and logs drift to `DEFECTS.md`. The four-file tempo contradiction becomes something you catch on a schedule, not once by accident.
 - **`/ardd-audit`** argues with a decision on simplicity, failure modes, and robustness before it's locked in. Its first version buried me in output, which is exactly how I found out I needed it to track findings to resolution instead of just listing them.
 - **Scoped tasks:** each task declares which artifacts it depends on, so implementation loads only the context it needs.
-
-*(Command names are current as of this revision — ArDD renamed several skills as its naming system settled, so if you read an older snapshot of this post, `/ardd-analyze`, `/ardd-verify`, and `/ardd-critique` are the same tools. The files they own — `STATUS.md`, `DEFECTS.md` — have stayed put.)*
 
 The constitution versions itself with semver and a changelog baked into the file. ArDD eventually ended up managing its own constitution, which felt like either a good sign or a warning, and I still can't tell which.
 
