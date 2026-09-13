@@ -5,11 +5,13 @@ interface Props {
   title: string;
   description?: string;
   current?: string;
+  canonical?: string;
 }
 const {
   title,
   description = "Tyler J. Peckenpaugh — a generalist software engineer with a pull toward developer experience, DevOps, and infrastructure. Hobby projects, a blog, and a past life in theoretical linguistics.",
   current,
+  canonical,
 } = Astro.props;
 
 const nav = [
@@ -63,6 +65,7 @@ const eye = {
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
