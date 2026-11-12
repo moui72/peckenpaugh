@@ -2,7 +2,7 @@
 title: The control plane got crowded
 description: "Two months after taking agent workflows apart, I went looking at what had shipped since. Most of it runs, isolates, and watches agents. Much less of it carries a project's decisions to the agents doing the work."
 date: 2026-11-12
-draft: true
+draft: false
 ---
 
 At the end of my [last post](/blog/taking-agent-workflows-apart/), I said that what I still wanted to understand was how consistently a project's own instructions reach every step of a workflow, including work delegated to another agent. I've since spent some time looking at what other people have been building in this space, partly to see whether someone had already answered that.
