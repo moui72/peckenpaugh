@@ -1,0 +1,329 @@
+---
+import Base from "../layouts/Base.astro";
+
+type Plane = "knowledge" | "delivery" | "control";
+
+interface Tool {
+  name: string;
+  url: string;
+  kind: string;
+  planes: Plane[];
+  summary: string;
+  license?: string;
+  note?: string;
+}
+
+const asOf = "November 12, 2026";
+
+// Planes follow the taxonomy: knowledge (what the project means), delivery
+// (turning a commitment into code), control (routing, state, isolation,
+// orchestration, observability). Each entry lists the planes where most of
+// what the tool does lands, not every plane it touches.
+const tools: Tool[] = [
+  // Agent IDEs and platforms
+  { name: "Cursor 3", url: "https://cursor.com/blog/cursor-3", kind: "Agent IDE", planes: ["control", "delivery"], summary: "Rebuilt in April 2026 around a workspace for running local and cloud agents side by side." },
+  { name: "Google Antigravity 2.0", url: "https://antigravity.google/blog/introducing-google-antigravity-2/", kind: "Agent IDE", planes: ["control", "delivery"], summary: "Moved agent management into a standalone desktop app, separate from the editor, in May 2026." },
+  { name: "Devin Desktop", url: "https://devin.ai/blog/windsurf-is-now-devin-desktop", kind: "Agent IDE", planes: ["control", "delivery"], summary: "Formerly Windsurf. Opens to an Agent Command Center, a board of local and cloud agents, and runs ACP agents." },
+  { name: "JetBrains Air", url: "https://blog.jetbrains.com/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/", kind: "Agent IDE", planes: ["control", "delivery"], summary: "An agentic development environment for delegating coding tasks to agents; public preview from March 2026." },
+  { name: "Warp", url: "https://www.warp.dev/blog/warp-is-now-open-source", kind: "Terminal", planes: ["control", "delivery"], summary: "Calls itself an agentic development environment; its client was open-sourced in April 2026.", license: "AGPL-3.0 (client)" },
+  { name: "GitHub Agent HQ", url: "https://github.blog/news-insights/company-news/welcome-home-agents/", kind: "Platform", planes: ["control", "delivery"], summary: "Mission Control for Copilot, Claude and Codex sessions, tied to issues and pull requests." },
+  { name: "Agent Client Protocol", url: "https://agentclientprotocol.com/", kind: "Protocol", planes: ["control"], summary: "Started by Zed so one interface can drive many agents; has an agent registry and support from JetBrains and others.", license: "Apache-2.0" },
+
+  // Open-source agent workspaces
+  { name: "T3 Code", url: "https://github.com/pingdotgg/t3code", kind: "Agent workspace", planes: ["control", "delivery"], summary: "A server with web, desktop and mobile clients that drives the agents you already have through their own protocols, with worktrees on request. About 57,000 stars.", license: "MIT" },
+  { name: "Orca", url: "https://github.com/stablyai/orca", kind: "Agent workspace", planes: ["control", "delivery"], summary: "Desktop app with a worktree per task, status hooks for each agent, and a CLI that lets agents start and message other agents. About 122,000 stars.", license: "MIT" },
+  { name: "Nimbalyst", url: "https://github.com/nimbalyst/nimbalyst", kind: "Agent workspace", planes: ["control", "delivery"], summary: "Formerly Crystal. Runs agents in parallel and lets you edit their work visually in markdown, mockups and diagrams, and track tasks.", license: "MIT" },
+  { name: "Conductor", url: "https://www.conductor.build/blog", kind: "Agent workspace", planes: ["control", "delivery"], summary: "Mac app for running agents in worktrees. Its site now says it is joining Meta." },
+  { name: "Vibe Kanban", url: "https://github.com/BloopAI/vibe-kanban", kind: "Agent board", planes: ["control", "delivery"], summary: "Local kanban board that runs an agent per card. Bloop shut down in April 2026 and the project is now community maintained.", license: "Apache-2.0" },
+  { name: "Kandev", url: "https://github.com/kdlbs/kandev", kind: "Agent board", planes: ["control", "delivery"], summary: "Self-hosted kanban for orchestrating agents, reviewing changes and opening pull requests.", license: "AGPL-3.0" },
+  { name: "Claude Squad", url: "https://github.com/smtg-ai/claude-squad", kind: "Terminal", planes: ["control"], summary: "Manages several terminal agents, each in its own worktree.", license: "AGPL-3.0" },
+
+  // Coordination and agent organizations
+  { name: "Gas Town", url: "https://github.com/gastownhall/gastown", kind: "Agent organization", planes: ["control", "delivery"], summary: "Named roles: a mayor assigns work, a witness checks on stuck workers, a refinery runs a merge queue. Built on Beads.", license: "MIT" },
+  { name: "Beads", url: "https://github.com/gastownhall/beads", kind: "Shared state", planes: ["control"], summary: "Issue tracker for agents. Data now lives in a versioned database under its own Git ref.", license: "MIT" },
+  { name: "Paperclip", url: "https://github.com/paperclipai/paperclip", kind: "Agent organization", planes: ["control"], summary: "Open-source orchestration for teams of agents: org charts, budgets, tickets and scheduled check-ins.", license: "MIT" },
+  { name: "MCP Agent Mail", url: "https://github.com/Dicklesworthstone/mcp_agent_mail", kind: "Shared state", planes: ["control"], summary: "Messages between agents plus advisory file reservations with an expiry and an optional pre-commit guard. Deprecated in favor of a Rust rewrite, mcp_agent_mail_rust." },
+
+  // Knowledge-plane tools
+  { name: "Kiro", url: "https://kiro.dev/docs/specs/", kind: "Spec-driven IDE", planes: ["knowledge", "delivery"], summary: "Each spec produces requirements, design and task files before implementation." },
+  { name: "Spec Kit", url: "https://github.com/github/spec-kit", kind: "Spec framework", planes: ["knowledge", "delivery"], summary: "Commands that take a feature from specification to technical plan to tasks.", license: "MIT" },
+  { name: "OpenSpec", url: "https://github.com/Fission-AI/OpenSpec", kind: "Spec framework", planes: ["knowledge"], summary: "Spec-driven development for AI coding assistants, with specs kept in the repository.", license: "MIT" },
+  { name: "BMAD-METHOD", url: "https://github.com/bmad-code-org/BMAD-METHOD", kind: "Spec framework", planes: ["knowledge", "delivery"], summary: "Briefs, specifications and architecture that it says keep decisions explicit and carry context forward.", license: "MIT" },
+  { name: "Augment Intent", url: "https://www.intentapp.dev/", kind: "Agent workspace", planes: ["knowledge", "control"], summary: "A coordinator agent writes a spec for each task that every agent in the workspace works from." },
+  { name: "Backlog.md", url: "https://github.com/MrLesk/Backlog.md", kind: "Task tracker", planes: ["knowledge", "control"], summary: "Each task is a markdown file in the repository, with a CLI, an MCP server and a local kanban web UI.", license: "MIT" },
+  { name: "Superpowers", url: "https://github.com/obra/superpowers", kind: "Skills", planes: ["knowledge", "delivery"], summary: "Skills for brainstorming, planning, test-driven development, review and verification.", license: "MIT" },
+];
+
+const planeLabel: Record<Plane, string> = { knowledge: "Knowledge", delivery: "Delivery", control: "Control" };
+const count = (p: Plane) => tools.filter((t) => t.planes.includes(p)).length;
+
+const policy = [
+  {
+    tool: "T3 Code",
+    how: "Leaves it to the agent. When it starts Claude Code through the SDK, it asks it to load project settings and instruction files.",
+    mechanism: "Harness loads instruction files",
+    source: "https://github.com/pingdotgg/t3code/blob/cf906e1fcfb8a0a91262382acaec44f4e7f9f800/apps/server/src/orchestration-v2/Adapters/ClaudeAdapterV2.ts#L5191",
+  },
+  {
+    tool: "Orca",
+    how: "Runs the agent's own CLI in the worktree, so it reads the same instruction files. Its orchestration guide also tells the coordinator to put constraints in each worker's task spec.",
+    mechanism: "Harness loads instruction files; agent-directed prose",
+    source: "https://github.com/stablyai/orca/blob/04158606b5deb127b0dd5fdd2735f146f171cd19/skill-guides/orchestration.md#L97",
+  },
+  {
+    tool: "Gas Town",
+    how: "A session-start hook runs gt prime, which injects the role's instructions plus operator-written role directives that override the workflow where they conflict.",
+    mechanism: "Harness hook injects role policy",
+    source: "https://github.com/gastownhall/gastown/blob/4b24a16e5195faa01ffc052db611a01530484854/docs/design/directives-and-overlays.md#L23",
+  },
+];
+
+const stateOptions = [
+  { where: "The tool's own database", example: "Orca, T3 Code (SQLite and JSON in your home directory)", visible: "Every agent that tool starts", owner: "The tool" },
+  { where: "Files committed to the repository", example: "Beads' original design", visible: "Other branches only after merging", owner: "The project" },
+  { where: "A coordination server", example: "MCP Agent Mail's file reservations", visible: "Every agent connected to the server", owner: "The server" },
+  { where: "A versioned database under a Git ref", example: "Beads today, using Dolt", visible: "Every worktree; other machines by push and fetch", owner: "The tool, stored in the repository" },
+  { where: "The shared .git directory or custom Git refs", example: "Beads' database uses a ref; I found no tool keeping simple claim records this way", visible: "Every worktree; refs also by push and fetch", owner: "Undecided" },
+];
+---
+
+<Base
+  title="Agent tooling landscape | Tyler J. Peckenpaugh"
+  description="A map of agent tools that shipped through November 2026, sorted into knowledge, delivery and control planes, with a source for every entry."
+  current="blog"
+  canonical="https://peckenpaugh.us/agent-landscape/"
+>
+  <div class="landscape">
+    <nav class="landscape-nav wrap" aria-label="Landscape sections">
+      <a href="/blog/the-control-plane-got-crowded/">The article</a>
+      <a href="#tools">Tools</a>
+      <a href="#policy">How policy reaches workers</a>
+      <a href="#state">Shared state</a>
+    </nav>
+
+    <section class="intro wrap">
+      <p class="eyebrow">Tyler J. Peckenpaugh / Agentic development</p>
+      <h1>Agent tooling landscape</h1>
+      <p class="lede">
+        The agent tools I looked at for <a href="/blog/the-control-plane-got-crowded/">The control plane got crowded</a>,
+        sorted into the planes from the <a href="/tool-taxonomy/">tooling anatomy</a>. Each entry links to the source
+        it's based on. As of {asOf}.
+      </p>
+      <p class="caveat">
+        A working interpretation, not a ranking. Plane assignments are my judgment about where most of a tool's work
+        lands. T3 Code, Orca and Gas Town were read from source without being run; the rest come from vendor pages and
+        repositories, which change quickly.
+      </p>
+    </section>
+
+    <section id="tools" class="wrap">
+      <h2>Tools by plane</h2>
+      <div class="filters" role="group" aria-label="Filter by plane">
+        <button type="button" data-filter="all" aria-pressed="true">All ({tools.length})</button>
+        {(["knowledge", "delivery", "control"] as Plane[]).map((p) => (
+          <button type="button" data-filter={p} aria-pressed="false">{planeLabel[p]} ({count(p)})</button>
+        ))}
+      </div>
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr><th scope="col">Tool</th><th scope="col">Kind</th><th scope="col">Planes</th><th scope="col">What it does</th></tr>
+          </thead>
+          <tbody>
+            {tools.map((t) => (
+              <tr data-planes={t.planes.join(" ")}>
+                <th scope="row"><a href={t.url}>{t.name}</a>{t.license && <span class="license">{t.license}</span>}</th>
+                <td>{t.kind}</td>
+                <td>{t.planes.map((p) => <span class={`plane-tag ${p}`}>{planeLabel[p]}</span>)}</td>
+                <td>{t.summary}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Star counts are from GitHub on {asOf}.</p>
+    </section>
+
+    <section id="policy" class="wrap">
+      <h2>How policy reaches workers</h2>
+      <p>How each of the three tools I read passes a project's instructions to the agents it starts, in the mechanism terms from the <a href="/tool-taxonomy/#mechanisms">tooling anatomy</a>.</p>
+      <div class="table-frame">
+        <table>
+          <thead><tr><th scope="col">Tool</th><th scope="col">How</th><th scope="col">Mechanism</th></tr></thead>
+          <tbody>
+            {policy.map((p) => (
+              <tr>
+                <th scope="row"><a href={p.source}>{p.tool}</a></th>
+                <td>{p.how}</td>
+                <td>{p.mechanism}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="state" class="wrap">
+      <h2>Where shared state could live</h2>
+      <p>Options for recording which agent has claimed which task and which files it is changing, so agents in other worktrees can see it. This is an open question, not a recommendation.</p>
+      <div class="table-frame">
+        <table>
+          <thead><tr><th scope="col">Where</th><th scope="col">Example</th><th scope="col">Visible to</th><th scope="col">Owned by</th></tr></thead>
+          <tbody>
+            {stateOptions.map((s) => (
+              <tr>
+                <th scope="row">{s.where}</th>
+                <td>{s.example}</td>
+                <td>{s.visible}</td>
+                <td>{s.owner}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var buttons = document.querySelectorAll(".landscape .filters button");
+      var rows = document.querySelectorAll("#tools tbody tr");
+      buttons.forEach(function (b) {
+        b.addEventListener("click", function () {
+          var f = b.getAttribute("data-filter");
+          buttons.forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); });
+          rows.forEach(function (r) {
+            var planes = (r.getAttribute("data-planes") || "").split(" ");
+            r.hidden = f !== "all" && planes.indexOf(f) === -1;
+          });
+        });
+      });
+    })();
+  </script>
+</Base>
+
+<style>
+  .landscape {
+    font-family: var(--body);
+    padding-bottom: 4rem;
+  }
+  .landscape section {
+    margin-top: 3rem;
+  }
+  .landscape-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    padding-top: 1.25rem;
+    font-size: var(--step--1);
+  }
+  .landscape-nav a {
+    color: var(--link);
+  }
+  .eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--hot);
+    font-size: var(--step--1);
+    font-weight: 700;
+  }
+  h1 {
+    font-family: var(--display);
+    font-size: var(--step-3);
+    margin: 0 0 1rem;
+  }
+  h2 {
+    font-family: var(--display);
+    font-size: var(--step-2);
+    margin: 0 0 1rem;
+  }
+  .lede {
+    font-size: var(--step-1);
+    max-width: var(--measure);
+  }
+  .caveat,
+  .note,
+  #policy > p,
+  #state > p {
+    color: var(--ink-soft);
+    max-width: var(--measure);
+  }
+  .landscape a {
+    color: var(--link);
+  }
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .filters button {
+    font: inherit;
+    font-size: var(--step--1);
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .filters button[aria-pressed="true"] {
+    border-color: var(--hot);
+    background: var(--hot-wash);
+  }
+  .table-frame {
+    overflow-x: auto;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--step--1);
+  }
+  th,
+  td {
+    text-align: left;
+    vertical-align: top;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  thead th {
+    background: var(--paper-2);
+    color: var(--ink-soft);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  tbody th {
+    font-weight: 700;
+    min-width: 9rem;
+  }
+  tbody tr:last-child th,
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .license {
+    display: block;
+    color: var(--ink-faint);
+    font-weight: 400;
+    font-size: 0.85em;
+  }
+  .plane-tag {
+    display: inline-block;
+    margin: 0 0.25rem 0.25rem 0;
+    padding: 0.05rem 0.45rem;
+    border-radius: 3px;
+    font-size: 0.85em;
+    border: 1px solid var(--rule);
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+  .plane-tag.knowledge {
+    border-color: var(--hot);
+    background: var(--hot-wash);
+    color: var(--ink);
+  }
+  .plane-tag.control {
+    background: var(--paper-2);
+    color: var(--ink);
+  }
+</style>
